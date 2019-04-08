@@ -1,7 +1,15 @@
 import sys
+import numpy as np
+
+class Point:
+    def __init__(self, initx, inity):
+        self.x = initx
+        self.y = inity
+
 
 searchMethods = {'BFS', 'DFS', 'DLS', 'ID', 'GBFS', 'ASTAR'}
 heuristics = {'h1', 'h2'}
+size = 4
 
 
 # Breadth first search
@@ -24,14 +32,14 @@ def gbfs():
     return 0
 
 
-# A-Star Search
+# A-Stadwad
 def astar():
     return 0
 
 
 # Load the cmd arguments into values
 def parseinput():
-    global initialstate, searchmethod, argcount, extra
+    global initialstate, searchmethod, argcount, extra, state
     initialstate = sys.argv[1].replace('\'', '').replace('\"', '').upper()
     searchmethod = sys.argv[2]
     argcount = len(sys.argv) - 1
@@ -45,6 +53,20 @@ def parseinput():
         input += i + ' '
 
     print(input)
+
+    # Build the State model
+    i = 0
+    state = []
+    temp = []
+    for c in initialstate:
+        temp += c
+        i += 1
+        if (i % 4 == 0 and i > 0):
+            state += temp
+            temp = []
+
+    state = np.array(state).reshape(4,4)
+    print(state)
 
 
 # Check that the input is valid..
@@ -111,5 +133,27 @@ def handleinput():
         print('astar chosen')
 
 
+# Check the bounds to see if the swap values are okay
+def checkcoords(p):
+    return 0 <= p.x < size and 0 <= p.y < size
+
+
+# Swap two elements in the array
+def swap(p1, p2):
+    temp = state[p1.x][p1.y]
+    state[p1.x][p1.y] = state[p2.x][p2.y]
+    state[p2.x][p2.y] = temp
+    print(state)
+
+
 parseinput()
 validateinput()
+
+
+p1 = Point(1, 1)
+p2 = Point(2, 2)
+
+if checkcoords(p1) and checkcoords(p2):
+    swap(p1, p2)
+else:
+    print('Invalid Coordinates: Outside of range')
