@@ -9,8 +9,23 @@ def bfs():
     return 0
 
 
-# Depth limited search
+# Depth first search
 def dfs():
+    return 0
+
+
+# Depth limited search
+def dls():
+    return 0
+
+
+# Greedy best-first search
+def gbfs():
+    return 0
+
+
+# A-Star Search
+def astar():
     return 0
 
 
