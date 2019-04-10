@@ -1,10 +1,13 @@
 import sys
 import numpy as np
+import copy
 import array as arr
 from random import randint
 
 
 # Based on: http://interactivepython.org/courselib/static/pythonds/BasicDS/ImplementingaQueueinPython.html
+
+
 class Queue:
     def __init__(self):
         self.items = []
@@ -56,10 +59,10 @@ size = 4
 
 # move the blank space of the board, by swapping its index with another piece
 def move(board, move):
-
+    newboard = copy.deepcopy(board)
     for i in range(0, size):
         for j in range(0, size):
-            if board[i][j] == ' ':
+            if newboard[i][j] == ' ':
                 xoff = yoff = 0
                 if move == 'right':
                     xoff = 1
@@ -70,12 +73,12 @@ def move(board, move):
                 if move == 'down':
                     yoff = 1
 
-                temp = board[i + yoff][j + xoff]
-                board[i + yoff][j + xoff] = board[i][j]
-                board[i][j] = temp
-                return board
+                temp = newboard[i + yoff][j + xoff]
+                newboard[i + yoff][j + xoff] = newboard[i][j]
+                newboard[i][j] = temp
+                return newboard
 
-    return board
+    return newboard
 
 
 # get all possible moves that can be made based on a board in a certain state
@@ -123,30 +126,85 @@ def bfs(goal, initial):
     queue = Queue()
     queue.enqueue(initial)
 
+    # explored = np.array([])
+    explored = []
     while not queue.isEmpty():
-        print('in queue')
+        print('in queue: ', queue.size())
         newqueue = Queue()
         # for each node at the current depth level
         for x in range(0, queue.size()):
             state = queue.dequeue()
-            print(state)
+            # print(queue.size())
+            # print(state)
             # do all the possible moves, right, down, left, right, then check if they equal the goal
             for m in getmoves(state):
                 newboard = move(state, m)
-                if np.array_equal(goal, newboard.flatten()):
-                    print('Found the solution')
-                    print(newboard)
-                    exit()
-                else:
-                    newqueue.enqueue(newboard)
 
-        queue = newqueue
+                value = ','.join([np.unicode(i) for i in newboard])
+
+                if value not in explored:
+                    print(newboard)
+
+                    if np.array_equal(goal, newboard.flatten()):
+                        print('Found the solution')
+                        print(newboard)
+                        exit()
+                    else:
+                        queue.enqueue(newboard)
+                        # explored = []
+                        # np.concatenate(explored, newboard)
+                        explored.append(value)
+
+        # queue = newqueue
 
     return 0
 
 
 # Depth first search
-def dfs():
+def dfs(goal, initial, visited=None):
+    print(initial)
+    # treat list as a stack
+    # more recursively, right first
+
+    # def dfs(graph, start, visited=None):
+    #     if visited is None:
+    #         visited = set()
+    #     visited.add(start)
+    #     for next in graph[start] - visited:
+    #         dfs(graph, next, visited)
+    #     return visited
+    #
+    # dfs(graph, 'C')
+
+    if visited is None:
+        visited = []
+        visited.append(initial)
+        for x in getmoves(initial):
+            moved = move(initial, x)
+
+            if x == 'right':
+                dfs(goal, moved)
+            if x == 'down':
+                dfs(goal, moved)
+            if x == 'left':
+                dfs(goal, moved)
+            if x == 'up':
+                dfs(goal, moved)
+    #
+    #
+    # stack = []
+    # stack.append('test')
+    # stack.pop()
+    #
+    # newboard = move(initial, getmoves(initial)[0])
+    #
+    # print(newboard)
+    #
+    # if np.array_equal(goal, newboard.flatten()):
+    #     print('Found the solution')
+    #     print(newboard)
+    #     exit()
+
     return 0
 
 
@@ -251,7 +309,7 @@ def handleinput():
     if searchmethod.lower() == 'bfs':
         print('bfs chosen')
     elif searchmethod.lower() == 'dfs':
-        dfs()
+        print('dfs chosen')
     elif searchmethod.lower() == 'dls':
         print('dls chosen')
     elif searchmethod.lower() == 'id':
@@ -283,8 +341,10 @@ validateinput()
 # print(moves)
 # move(boardinput, moves[0])
 #
-# print(boardinput)
+print('input')
+print(boardinput)
 
 
-print(solution, boardinput.flatten())
-bfs(solution, boardinput)
+# print(solution, boardinput.flatten())
+# bfs(solution, boardinput)
+dfs(solution, boardinput)
