@@ -1,5 +1,6 @@
 import sys
 import numpy as np
+from random import randint
 
 class Point:
     def __init__(self, initx, inity):
@@ -7,13 +8,60 @@ class Point:
         self.y = inity
 
 
+graph = {'1': ['2', '5'],
+         '2': ['1', '3', '6'],
+         '3': ['2', '4', '7'],
+         '4': ['3', '8'],
+         '5': ['1', '6', '9'],
+         '6': ['2', '5', '7', 'A'],
+         '7': ['3', '6', '8', 'B'],
+         '8': ['4', '7', 'C'],
+         '9': ['5', 'A', 'D'],
+         'A': ['6', '9', 'B', 'E'],
+         'B': ['7', 'A', 'C', 'F'],
+         'C': ['8', 'B', ' '],
+         'D': ['9', 'E'],
+         'E': ['A', 'D', 'F'],
+         'F': ['B', 'E', ' '],
+         ' ': ['C', 'F']
+         }
+
 searchMethods = {'BFS', 'DFS', 'DLS', 'ID', 'GBFS', 'ASTAR'}
 heuristics = {'h1', 'h2'}
+solution = np.array(['A', 'B', 'C', 'D', 'E', 'F', '0', '1', '2', '3', '4', '5', '6', '7', '8', ' '])
 size = 4
+
+# print(solution)
+
+
+def generate_edges(graph):
+    edges = []
+    for node in graph:
+        for neighbour in graph[node]:
+            edges.append((node, neighbour))
+
+    return edges
+
+
+print(generate_edges(graph))
+
+
+# Random search
+def rs():
+    x1 = randint(0, size-1)
+    y1 = randint(0, size-1)
+    x2 = randint(0, size-1)
+    y2 = randint(0, size-1)
+
+    p1 = Point(x1, y1)
+    p2 = Point(x2, y2)
+
+    swap(p1, p2)
 
 
 # Breadth first search
 def bfs():
+
     return 0
 
 
@@ -143,17 +191,12 @@ def swap(p1, p2):
     temp = state[p1.x][p1.y]
     state[p1.x][p1.y] = state[p2.x][p2.y]
     state[p2.x][p2.y] = temp
-    print(state)
+    # print(state)
 
 
 parseinput()
 validateinput()
 
 
-p1 = Point(1, 1)
-p2 = Point(2, 2)
-
-if checkcoords(p1) and checkcoords(p2):
-    swap(p1, p2)
-else:
-    print('Invalid Coordinates: Outside of range')
+# while not np.array_equal(solution, state.flatten()):
+#     bfs()
