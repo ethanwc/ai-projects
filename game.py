@@ -1,6 +1,26 @@
 import sys
 import numpy as np
+import array as arr
 from random import randint
+
+
+# Based on: http://interactivepython.org/courselib/static/pythonds/BasicDS/ImplementingaQueueinPython.html
+class Queue:
+    def __init__(self):
+        self.items = []
+
+    def isEmpty(self):
+        return self.items == []
+
+    def enqueue(self, item):
+        self.items.insert(0,item)
+
+    def dequeue(self):
+        return self.items.pop()
+
+    def size(self):
+        return len(self.items)
+
 
 class Point:
     def __init__(self, initx, inity):
@@ -34,6 +54,55 @@ size = 4
 # print(solution)
 
 
+# move the blank space of the board, by swapping its index with another piece
+def move(board, move):
+
+    for i in range(0, size):
+        for j in range(0, size):
+            if board[i][j] == ' ':
+                xoff = yoff = 0
+                if move == 'right':
+                    xoff = 1
+                if move == 'left':
+                    xoff = -1
+                if move == 'up':
+                    yoff = -1
+                if move == 'down':
+                    yoff = 1
+
+                temp = board[i + yoff][j + xoff]
+                board[i + yoff][j + xoff] = board[i][j]
+                board[i][j] = temp
+                return board
+
+    return board
+
+
+# get all possible moves that can be made based on a board in a certain state
+def getmoves(board):
+
+    for i in range(0, size):
+        for j in range(0, size):
+            if board[i][j] == ' ':
+                moves = []
+
+                # right
+                if j < size - 1:
+                    moves.append('right')
+                # down
+                if i < size - 1:
+                    moves.append('down')
+                # left
+                if j > 0:
+                    moves.append('left')
+                # up
+                if i > 0:
+                    moves.append('up')
+                return moves
+
+    return 0
+
+
 def generate_edges(graph):
     edges = []
     for node in graph:
@@ -43,24 +112,35 @@ def generate_edges(graph):
     return edges
 
 
-print(generate_edges(graph))
-
-
-# Random search
-def rs():
-    x1 = randint(0, size-1)
-    y1 = randint(0, size-1)
-    x2 = randint(0, size-1)
-    y2 = randint(0, size-1)
-
-    p1 = Point(x1, y1)
-    p2 = Point(x2, y2)
-
-    swap(p1, p2)
-
-
 # Breadth first search
-def bfs():
+def bfs(goal, initial):
+    # graph is solution
+    # state is current version
+    # want graph to equal state, done by the bfs algorithm
+
+    # move: right, down, left, right
+
+    queue = Queue()
+    queue.enqueue(initial)
+
+    while not queue.isEmpty():
+        print('in queue')
+        newqueue = Queue()
+        # for each node at the current depth level
+        for x in range(0, queue.size()):
+            state = queue.dequeue()
+            print(state)
+            # do all the possible moves, right, down, left, right, then check if they equal the goal
+            for m in getmoves(state):
+                newboard = move(state, m)
+                if np.array_equal(goal, newboard.flatten()):
+                    print('Found the solution')
+                    print(newboard)
+                    exit()
+                else:
+                    newqueue.enqueue(newboard)
+
+        queue = newqueue
 
     return 0
 
@@ -87,7 +167,7 @@ def astar():
 
 # Load the cmd arguments into values
 def parseinput():
-    global initialstate, searchmethod, argcount, extra, state
+    global initialstate, searchmethod, argcount, extra, startstate, boardinput
     initialstate = sys.argv[1].replace('\'', '').replace('\"', '').upper()
     searchmethod = sys.argv[2]
     argcount = len(sys.argv) - 1
@@ -104,17 +184,18 @@ def parseinput():
 
     # Build the State model
     i = 0
-    state = []
+    startstate = []
     temp = []
     for c in initialstate:
         temp += c
         i += 1
-        if (i % 4 == 0 and i > 0):
-            state += temp
+        if i % 4 == 0 and i > 0:
+            startstate += temp
             temp = []
 
-    state = np.array(state).reshape(4,4)
-    print(state)
+    startstate = np.array(startstate).reshape(4,4)
+    boardinput = startstate
+    # print(state)
 
 
 # Check that the input is valid..
@@ -187,16 +268,23 @@ def checkcoords(p):
 
 
 # Swap two elements in the array
-def swap(p1, p2):
-    temp = state[p1.x][p1.y]
-    state[p1.x][p1.y] = state[p2.x][p2.y]
-    state[p2.x][p2.y] = temp
-    # print(state)
+# def swap(p1, p2):
+#     temp = state[p1.x][p1.y]
+#     state[p1.x][p1.y] = state[p2.x][p2.y]
+#     state[p2.x][p2.y] = temp
+#     # print(state)
 
 
 parseinput()
 validateinput()
 
+# print(boardinput)
+# moves = getmoves(boardinput)
+# print(moves)
+# move(boardinput, moves[0])
+#
+# print(boardinput)
 
-# while not np.array_equal(solution, state.flatten()):
-#     bfs()
+
+print(solution, boardinput.flatten())
+bfs(solution, boardinput)
