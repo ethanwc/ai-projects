@@ -85,6 +85,7 @@ def getmoves(board):
                 # up
                 if i > 0:
                     moves.append('up')
+                print(moves)
                 return moves
 
     return 0
@@ -112,18 +113,22 @@ def bfs(goal, initial):
 
     # explored = np.array([])
     explored = []
-    attempts = 0
-
+    attempts = 1
+    maxFringe = 0
+    numCreated = 0
     while not queue.isEmpty():
         # print('in queue: ', queue.size())
         # for each node at the curre
         # nt depth level
-        attempts += 1
+        if queue.size() > maxFringe:
+            maxFringe = queue.size()
         state = queue.dequeue()
         statevalue = ','.join([np.unicode(i) for i in state])
 
-        if np.array_equal(goal, state.flatten()):
+        if np.array_equal(goal, state.flatten()) or np.array_equal(solution2, state.flatten()):
             print('Found the solution in ', attempts, ' attempts')
+            print('Num Created:', numCreated)
+            print('Max Size:', maxFringe)
             print(state)
             exit()
 
@@ -133,10 +138,12 @@ def bfs(goal, initial):
 
         for m in getmoves(state):
             newboard = move(state, m)
+            numCreated += 1
             newboardvalue = ','.join([np.unicode(i) for i in newboard])
 
             if newboardvalue not in explored:
                 queue.enqueue(newboard)
+                attempts += 1
 
     return 0
 
@@ -208,6 +215,7 @@ def astar():
 def parseinput():
     global initialstate, searchmethod, argcount, extra, startstate, boardinput
     initialstate = sys.argv[1].replace('\'', '').replace('\"', '').upper()
+    initialstate = '123456789AB DEFC'
     print('here', initialstate)
     searchmethod = sys.argv[2]
     argcount = len(sys.argv) - 1
