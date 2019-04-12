@@ -16,7 +16,7 @@ class Queue:
         return self.items == []
 
     def enqueue(self, item):
-        self.items.insert(0,item)
+        self.items.insert(0, item)
 
     def dequeue(self):
         return self.items.pop()
@@ -31,28 +31,13 @@ class Point:
         self.y = inity
 
 
-graph = {'1': ['2', '5'],
-         '2': ['1', '3', '6'],
-         '3': ['2', '4', '7'],
-         '4': ['3', '8'],
-         '5': ['1', '6', '9'],
-         '6': ['2', '5', '7', 'A'],
-         '7': ['3', '6', '8', 'B'],
-         '8': ['4', '7', 'C'],
-         '9': ['5', 'A', 'D'],
-         'A': ['6', '9', 'B', 'E'],
-         'B': ['7', 'A', 'C', 'F'],
-         'C': ['8', 'B', ' '],
-         'D': ['9', 'E'],
-         'E': ['A', 'D', 'F'],
-         'F': ['B', 'E', ' '],
-         ' ': ['C', 'F']
-         }
-
 searchMethods = {'BFS', 'DFS', 'DLS', 'ID', 'GBFS', 'ASTAR'}
 heuristics = {'h1', 'h2'}
-solution = np.array(['A', 'B', 'C', 'D', 'E', 'F', '0', '1', '2', '3', '4', '5', '6', '7', '8', ' '])
+solution = np.array(['1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', ' '])
+solution2 = np.array(['1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'F', 'E', ' '])
+
 size = 4
+
 
 # print(solution)
 
@@ -83,7 +68,6 @@ def move(board, move):
 
 # get all possible moves that can be made based on a board in a certain state
 def getmoves(board):
-
     for i in range(0, size):
         for j in range(0, size):
             if board[i][j] == ' ':
@@ -128,34 +112,31 @@ def bfs(goal, initial):
 
     # explored = np.array([])
     explored = []
+    attempts = 0
+
     while not queue.isEmpty():
-        print('in queue: ', queue.size())
-        newqueue = Queue()
-        # for each node at the current depth level
-        for x in range(0, queue.size()):
-            state = queue.dequeue()
-            # print(queue.size())
-            # print(state)
-            # do all the possible moves, right, down, left, right, then check if they equal the goal
-            for m in getmoves(state):
-                newboard = move(state, m)
+        # print('in queue: ', queue.size())
+        # for each node at the curre
+        # nt depth level
+        attempts += 1
+        state = queue.dequeue()
+        statevalue = ','.join([np.unicode(i) for i in state])
 
-                value = ','.join([np.unicode(i) for i in newboard])
+        if np.array_equal(goal, state.flatten()):
+            print('Found the solution in ', attempts, ' attempts')
+            print(state)
+            exit()
 
-                if value not in explored:
-                    print(newboard)
+        explored.append(statevalue)
 
-                    if np.array_equal(goal, newboard.flatten()):
-                        print('Found the solution')
-                        print(newboard)
-                        exit()
-                    else:
-                        queue.enqueue(newboard)
-                        # explored = []
-                        # np.concatenate(explored, newboard)
-                        explored.append(value)
+        # do all the possible moves, right, down, left, right, then check if they equal the goal
 
-        # queue = newqueue
+        for m in getmoves(state):
+            newboard = move(state, m)
+            newboardvalue = ','.join([np.unicode(i) for i in newboard])
+
+            if newboardvalue not in explored:
+                queue.enqueue(newboard)
 
     return 0
 
@@ -227,6 +208,7 @@ def astar():
 def parseinput():
     global initialstate, searchmethod, argcount, extra, startstate, boardinput
     initialstate = sys.argv[1].replace('\'', '').replace('\"', '').upper()
+    print('here', initialstate)
     searchmethod = sys.argv[2]
     argcount = len(sys.argv) - 1
     input = ''
@@ -251,7 +233,7 @@ def parseinput():
             startstate += temp
             temp = []
 
-    startstate = np.array(startstate).reshape(4,4)
+    startstate = np.array(startstate).reshape(4, 4)
     boardinput = startstate
     # print(state)
 
@@ -341,10 +323,10 @@ validateinput()
 # print(moves)
 # move(boardinput, moves[0])
 #
+print(solution)
 print('input')
 print(boardinput)
 
-
 # print(solution, boardinput.flatten())
-# bfs(solution, boardinput)
-dfs(solution, boardinput)
+bfs(solution, boardinput)
+# dfs(solution, boardinput)
