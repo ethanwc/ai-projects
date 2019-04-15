@@ -1,4 +1,7 @@
+import queue
 import sys
+
+
 import numpy as np
 import copy
 import array as arr
@@ -8,21 +11,21 @@ from random import randint
 # Based on: http://interactivepython.org/courselib/static/pythonds/BasicDS/ImplementingaQueueinPython.html
 
 
-class Queue:
-    def __init__(self):
-        self.items = []
-
-    def isEmpty(self):
-        return self.items == []
-
-    def enqueue(self, item):
-        self.items.insert(0, item)
-
-    def dequeue(self):
-        return self.items.pop()
-
-    def size(self):
-        return len(self.items)
+# class Queue:
+#     def __init__(self):
+#         self.items = []
+#
+#     def isEmpty(self):
+#         return self.items == []
+#
+#     def enqueue(self, item):
+#         self.items.insert(0, item)
+#
+#     def dequeue(self):
+#         return self.items.pop()
+#
+#     def size(self):
+#         return len(self.items)
 
 
 class Point:
@@ -47,6 +50,7 @@ def move(board, move):
     newboard = copy.deepcopy(board)
     for i in range(0, size):
         for j in range(0, size):
+            print("board", board)
             if newboard[i][j] == ' ':
                 xoff = yoff = 0
                 if move == 'right':
@@ -70,6 +74,7 @@ def move(board, move):
 def getmoves(board):
     for i in range(0, size):
         for j in range(0, size):
+            print(board)
             if board[i][j] == ' ':
                 moves = []
 
@@ -85,7 +90,7 @@ def getmoves(board):
                 # up
                 if i > 0:
                     moves.append('up')
-                print(moves)
+                # print(moves)
                 return moves
 
     return 0
@@ -102,48 +107,34 @@ def generate_edges(graph):
 
 # Breadth first search
 def bfs(goal, initial):
-    # graph is solution
-    # state is current version
-    # want graph to equal state, done by the bfs algorithm
-
     # move: right, down, left, right
 
-    queue = Queue()
-    queue.enqueue(initial)
-
-    # explored = np.array([])
     explored = []
-    attempts = 1
-    maxFringe = 0
-    numCreated = 0
-    while not queue.isEmpty():
-        # print('in queue: ', queue.size())
-        # for each node at the curre
-        # nt depth level
-        if queue.size() > maxFringe:
-            maxFringe = queue.size()
-        state = queue.dequeue()
-        statevalue = ','.join([np.unicode(i) for i in state])
+    frontier = [initial]
 
-        if np.array_equal(goal, state.flatten()) or np.array_equal(solution2, state.flatten()):
-            print('Found the solution in ', attempts, ' attempts')
-            print('Num Created:', numCreated)
-            print('Max Size:', maxFringe)
-            print(state)
-            exit()
-
-        explored.append(statevalue)
-
-        # do all the possible moves, right, down, left, right, then check if they equal the goal
-
-        for m in getmoves(state):
-            newboard = move(state, m)
-            numCreated += 1
-            newboardvalue = ','.join([np.unicode(i) for i in newboard])
-
-            if newboardvalue not in explored:
-                queue.enqueue(newboard)
-                attempts += 1
+    # attempts = 1
+    # maxFringe = 0
+    # numCreated = 0
+    while len(frontier) > 0:
+        node = frontier.pop()
+        print(len(frontier))
+        explored.append(','.join([np.unicode(i) for i in node]))
+        print("node:", node)
+        for actions in getmoves(node):
+            action = move(node, actions)
+            text = ','.join([np.unicode(i) for i in action])
+            # need to check that the value is not in the queue
+            print("text", text)
+            print("frontier:", frontier)
+            if not (np.any(action == frontier)
+                    or text in explored):
+                if np.array_equal(goal, action.flatten()) or np.array_equal(solution2, action.flatten()):
+                    print("Found solution")
+                    exit()
+                else:
+                    frontier.append(action)
+                    print('here')
+            print('wtf')
 
     return 0
 
@@ -215,7 +206,7 @@ def astar():
 def parseinput():
     global initialstate, searchmethod, argcount, extra, startstate, boardinput
     initialstate = sys.argv[1].replace('\'', '').replace('\"', '').upper()
-    initialstate = '123456789AB DEFC'
+    # initialstate = '123456789ABD EFC'
     print('here', initialstate)
     searchmethod = sys.argv[2]
     argcount = len(sys.argv) - 1
@@ -338,3 +329,4 @@ print(boardinput)
 # print(solution, boardinput.flatten())
 bfs(solution, boardinput)
 # dfs(solution, boardinput)
+
