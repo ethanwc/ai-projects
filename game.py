@@ -36,8 +36,8 @@ class Point:
 
 searchMethods = {'BFS', 'DFS', 'DLS', 'ID', 'GBFS', 'ASTAR'}
 heuristics = {'h1', 'h2'}
-solution = np.array(['1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', ' '])
-solution2 = np.array(['1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'F', 'E', ' '])
+solution = np.array(['1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', ' ']).reshape(4, 4)
+solution2 = np.array(['1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'F', 'E', ' ']).reshape(4, 4)
 
 size = 4
 
@@ -50,7 +50,7 @@ def move(board, move):
     newboard = copy.deepcopy(board)
     for i in range(0, size):
         for j in range(0, size):
-            print("board", board)
+            # print("board", board)
             if newboard[i][j] == ' ':
                 xoff = yoff = 0
                 if move == 'right':
@@ -66,7 +66,7 @@ def move(board, move):
                 newboard[i + yoff][j + xoff] = newboard[i][j]
                 newboard[i][j] = temp
                 return newboard
-
+    print('error')
     return newboard
 
 
@@ -74,7 +74,7 @@ def move(board, move):
 def getmoves(board):
     for i in range(0, size):
         for j in range(0, size):
-            print(board)
+            # print(board)
             if board[i][j] == ' ':
                 moves = []
 
@@ -105,85 +105,87 @@ def generate_edges(graph):
     return edges
 
 
+def contains(element, list):
+    length = len(list)
+
+    for i in range(0, length):
+        if np.array_equal(element, list[i]):
+            return True
+    return False
+
+
 # Breadth first search
-def bfs(goal, initial):
-    # move: right, down, left, right
-
-    explored = []
+def bfs(initial):
     frontier = [initial]
+    explored = []
 
-    # attempts = 1
-    # maxFringe = 0
-    # numCreated = 0
+    if np.array_equal(initial, solution):
+        print('Found sol')
+        exit()
+    numcreated = 0
+    numexpanded = 0
+    maxfringe = 0
+    depth = 0
     while len(frontier) > 0:
-        node = frontier.pop()
-        print(len(frontier))
-        explored.append(','.join([np.unicode(i) for i in node]))
-        print("node:", node)
-        for actions in getmoves(node):
-            action = move(node, actions)
-            text = ','.join([np.unicode(i) for i in action])
-            # need to check that the value is not in the queue
-            print("text", text)
-            print("frontier:", frontier)
-            if not (np.any(action == frontier)
-                    or text in explored):
-                if np.array_equal(goal, action.flatten()) or np.array_equal(solution2, action.flatten()):
-                    print("Found solution")
-                    exit()
-                else:
-                    frontier.append(action)
-                    print('here')
-            print('wtf')
+        if len(frontier) > maxfringe:
+            maxfringe = len(frontier)
+        node = frontier.pop(0)
+        numexpanded += 1
+        explored.append(node)
+        moves = getmoves(node)
+        for i in range(0, len(moves)):
+            # print(moves[i])
+            # if 'right' == moves[i]:
+            child = move(node, moves[i])
+            numcreated += 1
+            if not contains(child, explored):
+                # print(child)
 
+                if np.array_equal(child, solution2) or np.array_equal(child, solution):
+                    print("Found sol in ", numcreated)
+                    print("Maxfringe", maxfringe)
+                    print("Numexpanded", numexpanded)
+                    print("Depth", depth)
+                    # exit()
+                    return
+                frontier.append(child)
     return 0
 
 
 # Depth first search
-def dfs(goal, initial, visited=None):
-    print(initial)
-    # treat list as a stack
-    # more recursively, right first
+def dfs(initial):
+    frontier = [initial]
+    explored = []
 
-    # def dfs(graph, start, visited=None):
-    #     if visited is None:
-    #         visited = set()
-    #     visited.add(start)
-    #     for next in graph[start] - visited:
-    #         dfs(graph, next, visited)
-    #     return visited
-    #
-    # dfs(graph, 'C')
+    if np.array_equal(initial, solution):
+        print('Found sol')
+        exit()
+    numcreated = 0
+    numexpanded = 0
+    maxfringe = 0
+    depth = 0
+    while len(frontier) > 0:
+        if len(frontier) > maxfringe:
+            maxfringe = len(frontier)
+        node = frontier.pop()
+        numexpanded += 1
+        explored.append(node)
+        moves = getmoves(node)
+        for i in range(0, len(moves)):
+            # print(moves[i])
+            # if 'right' == moves[i]:
+            child = move(node, moves[i])
+            numcreated += 1
+            if not contains(child, explored):
+                # print(child)
 
-    if visited is None:
-        visited = []
-        visited.append(initial)
-        for x in getmoves(initial):
-            moved = move(initial, x)
-
-            if x == 'right':
-                dfs(goal, moved)
-            if x == 'down':
-                dfs(goal, moved)
-            if x == 'left':
-                dfs(goal, moved)
-            if x == 'up':
-                dfs(goal, moved)
-    #
-    #
-    # stack = []
-    # stack.append('test')
-    # stack.pop()
-    #
-    # newboard = move(initial, getmoves(initial)[0])
-    #
-    # print(newboard)
-    #
-    # if np.array_equal(goal, newboard.flatten()):
-    #     print('Found the solution')
-    #     print(newboard)
-    #     exit()
-
+                if np.array_equal(child, solution2) or np.array_equal(child, solution):
+                    print("Found sol in ", numcreated)
+                    print("Maxfringe", maxfringe)
+                    print("Numexpanded", numexpanded)
+                    print("Depth", depth)
+                    return
+                frontier.append(child)
     return 0
 
 
@@ -322,11 +324,11 @@ validateinput()
 # print(moves)
 # move(boardinput, moves[0])
 #
-print(solution)
 print('input')
 print(boardinput)
 
 # print(solution, boardinput.flatten())
-bfs(solution, boardinput)
-# dfs(solution, boardinput)
+bfs(boardinput)
+print('starting dfs')
+dfs(boardinput)
 
