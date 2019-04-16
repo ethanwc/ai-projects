@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="78302b1b-12fa-4d39-a9d7-55898d7d00ae" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/15-puzzle.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/15-puzzle.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/game.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="125" column="58" selection-start-line="125" selection-start-column="58" selection-end-line="125" selection-end-column="58" />
+            <state relative-caret-position="273">
+              <caret line="127" column="13" lean-forward="true" selection-start-line="127" selection-end-line="128" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -40,18 +36,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>rand</find>
-      <find>point</find>
-      <find>queue</find>
-      <find>4,</find>
-      <find>sys.</find>
-      <find>initialstate</find>
-      <find>0:</find>
-      <find>range</find>
-      <find>getmoves</find>
-      <find>arr</find>
       <find>getmove</find>
-      <find>print</find>
       <find>state</find>
       <find>swap</find>
       <find>newqueu</find>
@@ -63,19 +48,31 @@
       <find>in queue</find>
       <find>parsein</find>
       <find>input</find>
-      <find>solution</find>
       <find>found the</find>
       <find>parseinput</find>
       <find>move</find>
       <find>np</find>
       <find>parse</find>
+      <find>board</find>
+      <find>wtf</find>
+      <find>here</find>
+      <find>found sol</find>
+      <find>contaions</find>
+      <find>check</find>
       <find>bfs</find>
+      <find>frontier</find>
+      <find>match</find>
+      <find>print</find>
+      <find>solution</find>
+      <find>pop</find>
+      <find>MOVE</find>
     </findStrings>
     <replaceStrings>
       <replace />
     </replaceStrings>
   </component>
   <component name="Git.Settings">
+    <option name="UPDATE_TYPE" value="REBASE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
@@ -87,7 +84,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="4">
+  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
     <option name="x" value="800" />
     <option name="y" value="28" />
     <option name="width" value="800" />
@@ -187,7 +184,7 @@
       <workItem from="1555039293953" duration="1320000" />
       <workItem from="1555092299428" duration="1069000" />
       <workItem from="1555315062255" duration="533000" />
-      <workItem from="1555352688729" duration="5112000" />
+      <workItem from="1555352688729" duration="19640000" />
     </task>
     <task id="LOCAL-00001" summary="robust input handling">
       <created>1554750198965</created>
@@ -231,14 +228,29 @@
       <option name="project" value="LOCAL" />
       <updated>1554935267304</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="bfs working">
+      <created>1555357810395</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1555357810395</updated>
+    </task>
+    <task id="LOCAL-00008" summary="bfs and dfs working">
+      <created>1555374163345</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1555374163345</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51937000" />
+    <option name="totallyTimeSpent" value="66465000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="800" y="28" width="800" height="872" extended-state="4" />
+    <frame x="0" y="-35" width="1600" height="935" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.3580902" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -254,7 +266,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.41025642" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.4636804" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32928476" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -295,7 +307,9 @@
     <MESSAGE value="???????" />
     <MESSAGE value="some changes" />
     <MESSAGE value="added bfs and dfs, but they are broken" />
-    <option name="LAST_COMMIT_MESSAGE" value="added bfs and dfs, but they are broken" />
+    <MESSAGE value="bfs working" />
+    <MESSAGE value="bfs and dfs working" />
+    <option name="LAST_COMMIT_MESSAGE" value="bfs and dfs working" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/15_puzzle$game.coverage" NAME="game Coverage Results" MODIFIED="1555039559224" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -309,10 +323,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/-1247971763/builtins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="3629" column="8" selection-start-line="3629" selection-start-column="8" selection-end-line="3629" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="125" column="58" selection-start-line="125" selection-start-column="58" selection-end-line="125" selection-end-column="58" />
+        <state relative-caret-position="273">
+          <caret line="127" column="13" lean-forward="true" selection-start-line="127" selection-end-line="128" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
