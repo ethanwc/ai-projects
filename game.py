@@ -1,4 +1,3 @@
-import queue
 import sys
 
 
@@ -28,6 +27,61 @@ from random import randint
 #         return len(self.items)
 
 
+import heapq
+
+
+class PriorityQueue:
+    def __init__(self):
+        self._queue = []
+        self._index = 0
+        self._size = 0
+
+    def push(self, item, priority):
+        print('p', priority)
+        heapq.heappush(self._queue, (priority, self._index, item))
+        self._index += 1
+        self._size += 1
+
+    def pop(self):
+        self._size -= 1
+        return heapq.heappop(self._queue)[-1]
+
+    def size(self):
+        return self._size
+
+# class PriorityQueue(object):
+#     def __init__(self):
+#         self.queue = []
+#
+#     def __str__(self):
+#         return ' '.join([str(i) for i in self.queue])
+#
+#         # for checking if the queue is empty
+#
+#     def isEmpty(self):
+#         return len(self.queue) == []
+#
+#         # for inserting an element in the queue
+#
+#     def insert(self, data):
+#         self.queue.append(data)
+#
+#         # for popping an element based on Priority
+#
+#     def delete(self):
+#         try:
+#             max = 0
+#             for i in range(len(self.queue)):
+#                 if self.queue[i] > self.queue[max]:
+#                     max = i
+#             item = self.queue[max]
+#             del self.queue[max]
+#             return item
+#         except IndexError:
+#             print()
+#             exit()
+
+
 class Point:
     def __init__(self, initx, inity):
         self.x = initx
@@ -43,6 +97,101 @@ size = 4
 
 
 # print(solution)
+
+
+# h1 is the number of misplaced tiles
+# goal state is 1:9,abcdef or 1:9,abcdfe
+def h1(state):
+    n = 0
+    if not state[0] == '1':
+        n += 1
+    if not state[1] == '2':
+        n += 1
+    if not state[2] == '3':
+        n += 1
+    if not state[3] == '4':
+        n += 1
+    if not state[4] == '5':
+        n += 1
+    if not state[5] == '6':
+        n += 1
+    if not state[6] == '7':
+        n += 1
+    if not state[7] == '8':
+        n += 1
+    if not state[8] == '9':
+        n += 1
+    if not state[9] == 'A':
+        n += 1
+    if not state[10] == 'B':
+        n += 1
+    if not state[11] == 'C':
+        n += 1
+    if not state[12] == 'D':
+        n += 1
+    if not state[13] == 'E' and not state[13] == 'F':
+        n += 1
+    if not state[14] == 'F' and not state[14] == 'E':
+        n += 1
+
+    return n
+
+
+# the sum of the distances of the tiles from their goal positions
+# state should be 4x4
+def h2(state):
+    # print(state)
+    # print('--------------')
+    distance = 0
+    for x in range(0, size):
+        for y in range(0, size):
+            if state[x][y] == '1':
+                distance += abs(x - 0) + abs(y - 0)
+                # print(state[x][y],x,y, distance)
+            if state[x][y] == '2':
+                distance += abs(x - 0) + abs(y - 1)
+                # print(state[x][y],x,y,distance)
+            if state[x][y] == '3':
+                distance += abs(x - 0) + abs(y - 2)
+                # print(state[x][y],x,y,distance)
+            if state[x][y] == '4':
+                distance += abs(x - 0) + abs(y - 3)
+                # print(state[x][y],x,y,distance)
+            if state[x][y] == '5':
+                distance += abs(x - 1) + abs(y - 0)
+                # print(state[x][y],x,y,distance)
+            if state[x][y] == '6':
+                distance += abs(x - 1) + abs(y - 1)
+                # print(state[x][y],x,y,distance)
+            if state[x][y] == '7':
+                distance += abs(x - 1) + abs(y - 2)
+                # print(state[x][y],x,y,distance)
+            if state[x][y] == '8':
+                distance += abs(x - 1) + abs(y - 3)
+                # print(state[x][y],x,y,distance)
+            if state[x][y] == '9':
+                distance += abs(x - 2) + abs(y - 0)
+                # print(state[x][y],x,y,distance)
+            if state[x][y] == 'A':
+                distance += abs(x - 2) + abs(y - 1)
+                # print(state[x][y],x,y,distance)
+            if state[x][y] == 'B':
+                distance += abs(x - 2) + abs(y - 2)
+                # print(state[x][y],x,y,distance)
+            if state[x][y] == 'C':
+                distance += abs(x - 2) + abs(y - 3)
+                # print(state[x][y],x,y,distance)
+            if state[x][y] == 'D':
+                distance += abs(x - 3) + abs(y - 0)
+                # print(state[x][y],x,y,distance)
+            if state[x][y] == 'E':
+                distance += abs(x - 3) + abs(y - 1)
+                # print(state[x][y],x,y,distance)
+            if state[x][y] == 'F':
+                distance += abs(x - 3) + abs(y - 2)
+                # print(state[x][y],x,y,distance)
+    # print('--------------')
+    return distance
 
 
 # move the blank space of the board, by swapping its index with another piece
@@ -121,7 +270,6 @@ def bfs(initial):
 
     if np.array_equal(initial, solution):
         print('Found sol')
-        exit()
     numcreated = 0
     numexpanded = 0
     maxfringe = 0
@@ -159,7 +307,6 @@ def dfs(initial):
 
     if np.array_equal(initial, solution):
         print('Found sol')
-        exit()
     numcreated = 0
     numexpanded = 0
     maxfringe = 0
@@ -199,8 +346,35 @@ def gbfs():
     return 0
 
 
-# A-Stadwad
-def astar():
+# A-Star
+def astar(initial):
+    frontier = PriorityQueue()
+    # cost = h2(initial)
+    cost = h1(np.array(initial).flatten())
+    frontier.push(initial, cost)
+    explored = []
+    # use a priority queue for frontier instead of a list??
+    if np.array_equal(initial, solution):
+        print('Found sol')
+        return
+    while frontier.size() > 0:
+        # make sure the highest priority element is popped
+        node = frontier.pop()
+        print(node)
+        explored.append(node)
+        moves = getmoves(node)
+        for i in range(0, len(moves)):
+            child = move(node, moves[i])
+            if not contains(child, explored):
+
+                if np.array_equal(child, solution2) or np.array_equal(child, solution):
+                    print('Found astar solution: ', frontier.size())
+                    print(child)
+                    return
+                # append with h1 heuristic
+                # cost = h2(child)
+                cost = h1(np.array(child).flatten())
+                frontier.push(child, cost)
     return 0
 
 
@@ -328,7 +502,9 @@ print('input')
 print(boardinput)
 
 # print(solution, boardinput.flatten())
-bfs(boardinput)
-print('starting dfs')
-dfs(boardinput)
-
+# bfs(boardinput)
+# print('starting dfs')
+# dfs(boardinput)
+astar(boardinput)
+# print(h1(boardinput.flatten()))
+# print(h2(boardinput))
