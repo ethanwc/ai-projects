@@ -1,32 +1,6 @@
 import sys
-
-
 import numpy as np
 import copy
-import array as arr
-from random import randint
-
-
-# Based on: http://interactivepython.org/courselib/static/pythonds/BasicDS/ImplementingaQueueinPython.html
-
-
-# class Queue:
-#     def __init__(self):
-#         self.items = []
-#
-#     def isEmpty(self):
-#         return self.items == []
-#
-#     def enqueue(self, item):
-#         self.items.insert(0, item)
-#
-#     def dequeue(self):
-#         return self.items.pop()
-#
-#     def size(self):
-#         return len(self.items)
-
-
 import heapq
 
 
@@ -49,38 +23,6 @@ class PriorityQueue:
     def size(self):
         return self._size
 
-# class PriorityQueue(object):
-#     def __init__(self):
-#         self.queue = []
-#
-#     def __str__(self):
-#         return ' '.join([str(i) for i in self.queue])
-#
-#         # for checking if the queue is empty
-#
-#     def isEmpty(self):
-#         return len(self.queue) == []
-#
-#         # for inserting an element in the queue
-#
-#     def insert(self, data):
-#         self.queue.append(data)
-#
-#         # for popping an element based on Priority
-#
-#     def delete(self):
-#         try:
-#             max = 0
-#             for i in range(len(self.queue)):
-#                 if self.queue[i] > self.queue[max]:
-#                     max = i
-#             item = self.queue[max]
-#             del self.queue[max]
-#             return item
-#         except IndexError:
-#             print()
-#             exit()
-
 
 class Point:
     def __init__(self, initx, inity):
@@ -95,8 +37,6 @@ solution2 = np.array(['1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C'
 heuristic = 'h1'
 size = 4
 
-
-# print(solution)
 
 # dumbe caller
 def h(state):
@@ -237,15 +177,6 @@ def getmoves(board):
     return 0
 
 
-def generate_edges(graph):
-    edges = []
-    for node in graph:
-        for neighbour in graph[node]:
-            edges.append((node, neighbour))
-
-    return edges
-
-
 def contains(element, list):
     length = len(list)
 
@@ -329,7 +260,52 @@ def dfs(initial):
 
 
 # Depth limited search
-def dls():
+def dls(initial, maxdepth):
+    frontier = [initial]
+    explored = []
+
+    currentDepth = 0
+    elementsToDepthIncrease = 1
+    nextElementsToDepthIncrease = 0
+    maxDepth = maxdepth
+    if np.array_equal(initial, solution):
+        print('Found sol')
+    numcreated = 0
+    numexpanded = 0
+    maxfringe = 0
+    depth = 0
+    while len(frontier) > 0:
+        if len(frontier) > maxfringe:
+            maxfringe = len(frontier)
+        node = frontier.pop()
+        numexpanded += 1
+        explored.append(node)
+        moves = getmoves(node)
+        for i in range(0, len(moves)):
+            # print(moves[i])
+            # if 'right' == moves[i]:
+            child = move(node, moves[i])
+            numcreated += 1
+            if not contains(child, explored):
+                # print(child)
+
+                if np.array_equal(child, solution2) or np.array_equal(child, solution):
+                    print("Found sol in ", numcreated)
+                    print("Maxfringe", maxfringe)
+                    print("Numexpanded", numexpanded)
+                    print("Depth", depth)
+                    return
+                frontier.append(child)
+
+        nextElementsToDepthIncrease += len(moves)
+        elementsToDepthIncrease -= 1
+        if elementsToDepthIncrease == 0:
+            currentDepth += 1
+            if currentDepth > maxDepth:
+                print('reached max depth')
+                return
+            elementsToDepthIncrease = nextElementsToDepthIncrease
+            nextElementsToDepthIncrease = 0
     return 0
 
 
@@ -358,7 +334,7 @@ def gbfs(initial):
                     return
                 # append with h1 heuristic
                 # cost = h2(child)
-                cost = h1(np.array(child).flatten())
+                cost = h(np.array(child).flatten())
                 frontier.push(child, cost)
     return 0
 
@@ -379,6 +355,8 @@ def astar(initial):
     nextElementsToDepthIncrease = 0
     maxDepth = 10000
 
+
+
     while frontier.size() > 0:
         node = frontier.pop()
         explored.append(node)
@@ -390,7 +368,7 @@ def astar(initial):
                     print('Found astar solution: ', frontier.size())
                     print('Depth: ', currentDepth)
                     return
-                cost = h(np.array(child).flatten()) + pathcost(np.array(initial).flatten(), np.array(child).flatten())
+                cost = h(np.array(child).flatten()) + currentDepth
                 frontier.push(child, cost)
 
         nextElementsToDepthIncrease += len(moves)
@@ -403,26 +381,6 @@ def astar(initial):
             nextElementsToDepthIncrease = 0
 
     return 0
-
-
-
-#       currentDepth = 0,
-#       elementsToDepthIncrease = 1,
-#       nextElementsToDepthIncrease = 0;
-#
-#   while (!nodeQueue.isEmpty()) {
-#     Node current = nodeQueue.poll();
-#     process(current);
-#     nextElementsToDepthIncrease += current.numberOfChildren();
-#     if (--elementsToDepthIncrease == 0) {
-#       if (++currentDepth > maxDepth) return;
-#       elementsToDepthIncrease = nextElementsToDepthIncrease;
-#       nextElementsToDepthIncrease = 0;
-#     }
-#     for (Node child : current.children()) {
-#       nodeQueue.add(child);
-#     }
-#   }
 
 
 # Load the cmd arguments into values
@@ -529,23 +487,9 @@ def checkcoords(p):
     return 0 <= p.x < size and 0 <= p.y < size
 
 
-# Swap two elements in the array
-# def swap(p1, p2):
-#     temp = state[p1.x][p1.y]
-#     state[p1.x][p1.y] = state[p2.x][p2.y]
-#     state[p2.x][p2.y] = temp
-#     # print(state)
-
-
 parseinput()
 validateinput()
 
-# print(boardinput)
-# moves = getmoves(boardinput)
-# print(moves)
-# move(boardinput, moves[0])
-#
-# print(gbfs(boardinput))
-# print(astar(boardinput))
-
 astar(boardinput)
+gbfs(boardinput)
+dls(boardinput, 6)
