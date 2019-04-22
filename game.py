@@ -213,12 +213,7 @@ def bfs(initial):
                 # print(child)
 
                 if np.array_equal(child, solution2) or np.array_equal(child, solution):
-                    print("Found sol in ", numcreated)
-                    print("Maxfringe", maxfringe)
-                    print("Numexpanded", numexpanded)
-                    print("Depth", depth)
-                    # exit()
-                    return
+                    return depth, numcreated, numexpanded, maxfringe
                 frontier.append(child)
     return 0
 
@@ -229,38 +224,35 @@ def dfs(initial):
     explored = []
 
     if np.array_equal(initial, solution):
-        print('Found sol')
-    numcreated = 0
-    numexpanded = 0
+        return 0, 1, 0, 0
+    created = 0
+    expanded = 0
     maxfringe = 0
     depth = 0
     while len(frontier) > 0:
         if len(frontier) > maxfringe:
             maxfringe = len(frontier)
         node = frontier.pop()
-        numexpanded += 1
+        expanded += 1
         explored.append(node)
         moves = getmoves(node)
         for i in range(0, len(moves)):
             # print(moves[i])
             # if 'right' == moves[i]:
             child = move(node, moves[i])
-            numcreated += 1
+            created += 1
             if not contains(child, explored):
                 # print(child)
 
                 if np.array_equal(child, solution2) or np.array_equal(child, solution):
-                    print("Found sol in ", numcreated)
-                    print("Maxfringe", maxfringe)
-                    print("Numexpanded", numexpanded)
-                    print("Depth", depth)
-                    return
+                    return depth, created, expanded, maxfringe
                 frontier.append(child)
     return 0
 
 
 # Depth limited search
 def dls(initial, maxdepth):
+    print(initial)
     frontier = [initial]
     explored = []
 
@@ -270,31 +262,23 @@ def dls(initial, maxdepth):
     maxDepth = maxdepth
     if np.array_equal(initial, solution):
         print('Found sol')
-    numcreated = 0
-    numexpanded = 0
+    created = 0
+    expanded = 0
     maxfringe = 0
-    depth = 0
     while len(frontier) > 0:
+        print(len(frontier))
         if len(frontier) > maxfringe:
             maxfringe = len(frontier)
         node = frontier.pop()
-        numexpanded += 1
+        expanded += 1
         explored.append(node)
         moves = getmoves(node)
         for i in range(0, len(moves)):
-            # print(moves[i])
-            # if 'right' == moves[i]:
             child = move(node, moves[i])
-            numcreated += 1
+            created += 1
             if not contains(child, explored):
-                # print(child)
-
                 if np.array_equal(child, solution2) or np.array_equal(child, solution):
-                    print("Found sol in ", numcreated)
-                    print("Maxfringe", maxfringe)
-                    print("Numexpanded", numexpanded)
-                    print("Depth", depth)
-                    return
+                    return currentDepth, created, expanded, maxfringe
                 frontier.append(child)
 
         nextElementsToDepthIncrease += len(moves)
@@ -302,7 +286,6 @@ def dls(initial, maxdepth):
         if elementsToDepthIncrease == 0:
             currentDepth += 1
             if currentDepth > maxDepth:
-                print('reached max depth')
                 return
             elementsToDepthIncrease = nextElementsToDepthIncrease
             nextElementsToDepthIncrease = 0
@@ -341,6 +324,7 @@ def gbfs(initial):
 
 # A-Star, uses heuristic and distance
 def astar(initial):
+    print(initial)
     frontier = PriorityQueue()
     initflat = np.array(initial).flatten()
     cost = h1(initflat) + pathcost(initflat, initflat)
@@ -348,14 +332,14 @@ def astar(initial):
     explored = []
     if np.array_equal(initial, solution):
         print('Found sol')
-        return
+        return 0, 0, 0, 0
 
+    maxDepth = 100000000
     currentDepth = 0
     elementsToDepthIncrease = 1
     nextElementsToDepthIncrease = 0
-    maxDepth = 10000
 
-
+    created, expanded, maxfringe = 0, 0, 0
 
     while frontier.size() > 0:
         node = frontier.pop()
@@ -363,11 +347,12 @@ def astar(initial):
         moves = getmoves(node)
         for i in range(0, len(moves)):
             child = move(node, moves[i])
+            created += 1
             if not contains(child, explored):
+                print(child, solution)
                 if np.array_equal(child, solution2) or np.array_equal(child, solution):
-                    print('Found astar solution: ', frontier.size())
-                    print('Depth: ', currentDepth)
-                    return
+                    return created
+                    # return currentDepth, created, expanded, 10, maxfringe
                 cost = h(np.array(child).flatten()) + currentDepth
                 frontier.push(child, cost)
 
@@ -383,13 +368,21 @@ def astar(initial):
     return 0
 
 
+    currentDepth = 0
+    elementsToDepthIncrease = 1
+    nextElementsToDepthIncrease = 0
+    maxDepth = 10000
+
+
+
+
 # Load the cmd arguments into values
 def parseinput():
     global initialstate, searchmethod, argcount, extra, startstate, boardinput
     initialstate = sys.argv[1].replace('\'', '').replace('\"', '').upper()
     # initialstate = '123456789ABD EFC'
-    print('here', initialstate)
     searchmethod = sys.argv[2]
+    startstate = []
     argcount = len(sys.argv) - 1
     input = ''
     extra = ''
@@ -400,11 +393,8 @@ def parseinput():
     for i in sys.argv[1:]:
         input += i + ' '
 
-    print(input)
-
     # Build the State model
     i = 0
-    startstate = []
     temp = []
     for c in initialstate:
         temp += c
@@ -412,10 +402,9 @@ def parseinput():
         if i % 4 == 0 and i > 0:
             startstate += temp
             temp = []
-
-    startstate = np.array(startstate).reshape(4, 4)
-    boardinput = startstate
-    # print(state)
+    boardinput = np.array(startstate).reshape(4, 4)
+    print(boardinput)
+    print('*********')
 
 
 # Check that the input is valid..
@@ -444,8 +433,8 @@ def validateinput():
 
     # Special Cases for heuristics
     if searchmethod.lower() == 'gbfs' or searchmethod.lower() == 'astar':
-        print('Invalid Input: No heuristic specified')
         if not extra in heuristics:
+            print('Invalid Input: No heuristic specified')
             valid = False
 
     # Special Case for depth limited search
@@ -462,24 +451,29 @@ def validateinput():
         print('Invalid Input: Too many arguments')
         valid = False
 
-    if valid:
-        handleinput()
+    return valid
 
 
 # Handle input after checking it is okay.
 def handleinput():
+    limit = 5
+    res = 0
     if searchmethod.lower() == 'bfs':
-        print('bfs chosen')
+        res = bfs(boardinput)
     elif searchmethod.lower() == 'dfs':
-        print('dfs chosen')
+        res = dfs(boardinput)
     elif searchmethod.lower() == 'dls':
-        print('dls chosen')
+        res = dls(boardinput, extra)
+        print(extra)
     elif searchmethod.lower() == 'id':
-        print('id chosen')
+        print('id chosen, its not implemented though... :)')
     elif searchmethod.lower() == 'gbfs':
-        print('gbfs chosen')
+        res = gbfs(boardinput)
     elif searchmethod.lower() == 'astar':
-        print('astar chosen')
+        res = astar(boardinput)
+    if res != 0:
+        print(res)
+        # print(res[0], res[1], res[2], res[3])
 
 
 # Check the bounds to see if the swap values are okay
@@ -488,8 +482,5 @@ def checkcoords(p):
 
 
 parseinput()
-validateinput()
-
-astar(boardinput)
-gbfs(boardinput)
-dls(boardinput, 6)
+if validateinput() == 1:
+    handleinput()
