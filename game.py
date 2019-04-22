@@ -37,7 +37,7 @@ class PriorityQueue:
         self._size = 0
 
     def push(self, item, priority):
-        print('p', priority)
+        # print('p', priority)
         heapq.heappush(self._queue, (priority, self._index, item))
         self._index += 1
         self._size += 1
@@ -92,48 +92,30 @@ searchMethods = {'BFS', 'DFS', 'DLS', 'ID', 'GBFS', 'ASTAR'}
 heuristics = {'h1', 'h2'}
 solution = np.array(['1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', ' ']).reshape(4, 4)
 solution2 = np.array(['1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'F', 'E', ' ']).reshape(4, 4)
-
+heuristic = 'h1'
 size = 4
 
 
 # print(solution)
+
+# dumbe caller
+def h(state):
+    if heuristic == 'h1':
+        return h1(state)
+    else:
+        return h2(state)
 
 
 # h1 is the number of misplaced tiles
 # goal state is 1:9,abcdef or 1:9,abcdfe
 def h1(state):
     n = 0
-    if not state[0] == '1':
-        n += 1
-    if not state[1] == '2':
-        n += 1
-    if not state[2] == '3':
-        n += 1
-    if not state[3] == '4':
-        n += 1
-    if not state[4] == '5':
-        n += 1
-    if not state[5] == '6':
-        n += 1
-    if not state[6] == '7':
-        n += 1
-    if not state[7] == '8':
-        n += 1
-    if not state[8] == '9':
-        n += 1
-    if not state[9] == 'A':
-        n += 1
-    if not state[10] == 'B':
-        n += 1
-    if not state[11] == 'C':
-        n += 1
-    if not state[12] == 'D':
-        n += 1
-    if not state[13] == 'E' and not state[13] == 'F':
-        n += 1
-    if not state[14] == 'F' and not state[14] == 'E':
-        n += 1
-
+    sol1 = np.array(solution).flatten()
+    sol2 = np.array(solution2).flatten()
+    for i in range(0, len(state)):
+        if not (state[i] == sol1[i]
+                or state[i] == sol2[i]):
+            n += 1
     return n
 
 
@@ -192,6 +174,17 @@ def h2(state):
                 # print(state[x][y],x,y,distance)
     # print('--------------')
     return distance
+
+
+# returns the path cost, from the initial state to the current path
+# pathcost is just h1 with the initial and current state
+def pathcost(initial, current):
+    n = 0
+    # print(initial, current)
+    for i in range(0, len(initial)):
+        if not initial[i] == current[i]:
+            n += 1
+    return n
 
 
 # move the blank space of the board, by swapping its index with another piece
@@ -341,13 +334,8 @@ def dls():
     return 0
 
 
-# Greedy best-first search
-def gbfs():
-    return 0
-
-
-# A-Star
-def astar(initial):
+# Greedy best-first search, uses the distance function.
+def gbfs(initial):
     frontier = PriorityQueue()
     # cost = h2(initial)
     cost = h1(np.array(initial).flatten())
@@ -360,7 +348,36 @@ def astar(initial):
     while frontier.size() > 0:
         # make sure the highest priority element is popped
         node = frontier.pop()
-        print(node)
+        explored.append(node)
+        moves = getmoves(node)
+        for i in range(0, len(moves)):
+            child = move(node, moves[i])
+            if not contains(child, explored):
+
+                if np.array_equal(child, solution2) or np.array_equal(child, solution):
+                    print('Found gbfs solution: ', frontier.size())
+                    return
+                # append with h1 heuristic
+                # cost = h2(child)
+                cost = h1(np.array(child).flatten())
+                frontier.push(child, cost)
+    return 0
+
+
+# A-Star, uses heuristic and distance
+def astar(initial):
+    frontier = PriorityQueue()
+    # cost = h2(initial)
+    cost = h1(np.array(initial).flatten()) + pathcost(np.array(initial).flatten(), np.array(initial).flatten())
+    frontier.push(initial, cost)
+    explored = []
+    # use a priority queue for frontier instead of a list??
+    if np.array_equal(initial, solution):
+        print('Found sol')
+        return
+    while frontier.size() > 0:
+        # make sure the highest priority element is popped
+        node = frontier.pop()
         explored.append(node)
         moves = getmoves(node)
         for i in range(0, len(moves)):
@@ -369,11 +386,10 @@ def astar(initial):
 
                 if np.array_equal(child, solution2) or np.array_equal(child, solution):
                     print('Found astar solution: ', frontier.size())
-                    print(child)
                     return
                 # append with h1 heuristic
                 # cost = h2(child)
-                cost = h1(np.array(child).flatten())
+                cost = h1(np.array(child).flatten()) + pathcost(np.array(initial).flatten(), np.array(child).flatten())
                 frontier.push(child, cost)
     return 0
 
@@ -498,13 +514,7 @@ validateinput()
 # print(moves)
 # move(boardinput, moves[0])
 #
-print('input')
-print(boardinput)
+# print(gbfs(boardinput))
+# print(astar(boardinput))
 
-# print(solution, boardinput.flatten())
-# bfs(boardinput)
-# print('starting dfs')
-# dfs(boardinput)
 astar(boardinput)
-# print(h1(boardinput.flatten()))
-# print(h2(boardinput))
