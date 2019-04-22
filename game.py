@@ -176,8 +176,7 @@ def h2(state):
     return distance
 
 
-# returns the path cost, from the initial state to the current path
-# pathcost is just h1 with the initial and current state
+# pathcost g(n) should be the depth level, the number of moves taken, not the cost between initial and current.
 def pathcost(initial, current):
     n = 0
     # print(initial, current)
@@ -367,31 +366,63 @@ def gbfs(initial):
 # A-Star, uses heuristic and distance
 def astar(initial):
     frontier = PriorityQueue()
-    # cost = h2(initial)
-    cost = h1(np.array(initial).flatten()) + pathcost(np.array(initial).flatten(), np.array(initial).flatten())
+    initflat = np.array(initial).flatten()
+    cost = h1(initflat) + pathcost(initflat, initflat)
     frontier.push(initial, cost)
     explored = []
-    # use a priority queue for frontier instead of a list??
     if np.array_equal(initial, solution):
         print('Found sol')
         return
+
+    currentDepth = 0
+    elementsToDepthIncrease = 1
+    nextElementsToDepthIncrease = 0
+    maxDepth = 10000
+
     while frontier.size() > 0:
-        # make sure the highest priority element is popped
         node = frontier.pop()
         explored.append(node)
         moves = getmoves(node)
         for i in range(0, len(moves)):
             child = move(node, moves[i])
             if not contains(child, explored):
-
                 if np.array_equal(child, solution2) or np.array_equal(child, solution):
                     print('Found astar solution: ', frontier.size())
+                    print('Depth: ', currentDepth)
                     return
-                # append with h1 heuristic
-                # cost = h2(child)
-                cost = h1(np.array(child).flatten()) + pathcost(np.array(initial).flatten(), np.array(child).flatten())
+                cost = h(np.array(child).flatten()) + pathcost(np.array(initial).flatten(), np.array(child).flatten())
                 frontier.push(child, cost)
+
+        nextElementsToDepthIncrease += len(moves)
+        elementsToDepthIncrease -= 1
+        if elementsToDepthIncrease == 0:
+            currentDepth += 1
+            if currentDepth > maxDepth:
+                return
+            elementsToDepthIncrease = nextElementsToDepthIncrease
+            nextElementsToDepthIncrease = 0
+
     return 0
+
+
+
+#       currentDepth = 0,
+#       elementsToDepthIncrease = 1,
+#       nextElementsToDepthIncrease = 0;
+#
+#   while (!nodeQueue.isEmpty()) {
+#     Node current = nodeQueue.poll();
+#     process(current);
+#     nextElementsToDepthIncrease += current.numberOfChildren();
+#     if (--elementsToDepthIncrease == 0) {
+#       if (++currentDepth > maxDepth) return;
+#       elementsToDepthIncrease = nextElementsToDepthIncrease;
+#       nextElementsToDepthIncrease = 0;
+#     }
+#     for (Node child : current.children()) {
+#       nodeQueue.add(child);
+#     }
+#   }
 
 
 # Load the cmd arguments into values
