@@ -185,33 +185,32 @@ def contains(element, list):
     return False
 
 
-# bfs(1) or dfs based on input, treats a list as a queue or stack, third param is the depth limit,
+# bfs(0) or dfs(1) based on input, treats a list as a queue or stack, third param is the depth limit,
 def fs(initial, search, limit):
     frontier = [initial]
     explored = []
+
+    numcreated, numexpanded, maxfringe, depth, nextdepthincrease, depthincrease = 0, 0, 0, 0, 0, 1
 
     # default want no limit, else keep default limit
     if limit == 0:
         limit = 10000000
 
+    maxdepth = limit
+
     if np.array_equal(initial, solution):
         return 0, 0, 0, 0
-
-    numcreated = 0
-    numexpanded = 0
-    maxfringe = 0
-    depth = 0
-    depthincrease = 1
-    nextdepthincrease = 0
-    maxdepth = limit
 
     while len(frontier) > 0:
         if len(frontier) > maxfringe:
             maxfringe = len(frontier)
+            # bfs
             if search:
                 node = frontier.pop(0)
+            # dfs
             else:
                 node = frontier.pop()
+            print(node)
         numexpanded += 1
         explored.append(node)
         moves = getmoves(node)
@@ -220,19 +219,28 @@ def fs(initial, search, limit):
             numcreated += 1
             if not contains(child, explored):
                 if np.array_equal(child, solution2) or np.array_equal(child, solution):
+                    print(child)
                     return depth, numcreated, numexpanded, maxfringe
                 frontier.append(child)
 
-        nextdepthincrease += len(moves)
-        depthincrease -= 1
-        if depthincrease == 0:
-            depth += 1
-            if depth > maxdepth:
-                return
-        depthincrease = nextdepthincrease
-        nextdepthincrease = 0
+        # if search:
+        #     depth += 1
 
-    return 0
+        # if search is bfs, count
+        # if not search:
+            nextdepthincrease += len(moves)
+            depthincrease -= 1
+            if depthincrease == 0:
+                depth += 1
+                if depth > maxdepth:
+                    return -1, -1, -1, -1
+                depthincrease = nextdepthincrease
+                nextdepthincrease = 0
+        # dfs just increment/decrement nodes
+        # else:
+        #     depth -= 1
+
+    return -1, -1, -1, -1
 
 
 # A-star(0) and greedy search(1)
@@ -278,17 +286,17 @@ def hs(initial, search):
         if elementsToDepthIncrease == 0:
             currentDepth += 1
             if currentDepth > maxDepth:
-                return
+                return -1, -1, -1, -1
             elementsToDepthIncrease = nextElementsToDepthIncrease
             nextElementsToDepthIncrease = 0
 
-    return 0
+    return -1, -1, -1, -1
 
 
 # Load the cmd arguments into values
 def parseinput():
     global extra
-    global searchmethod, argcount, extra, startstate, boardinput
+    global searchmethod, argcount, extra, startstate
     initialstate = sys.argv[1].replace('\'', '').replace('\"', '').upper()
     searchmethod = sys.argv[2]
     startstate = []
@@ -313,11 +321,11 @@ def parseinput():
             temp = []
     boardinput = np.array(startstate).reshape(4, 4)
 
-    validateinput(initialstate, searchmethod, argcount)
+    validateinput(initialstate, searchmethod, argcount, boardinput)
 
 
 # Check that the input is valid..
-def validateinput(initialstate, searchmethod, argcount):
+def validateinput(initialstate, searchmethod, argcount, boardinput):
     valid = True
 
     if not searchmethod.upper() in searchMethods:
@@ -361,18 +369,18 @@ def validateinput(initialstate, searchmethod, argcount):
         valid = False
 
     if valid == 1:
-        handleinput()
+        handleinput(boardinput)
 
 
 # Handle input after checking it is okay.
-def handleinput():
+def handleinput(boardinput):
     res = 0
     if searchmethod.lower() == 'bfs':
-        res = fs(boardinput, 1, 0)
-    elif searchmethod.lower() == 'dfs':
         res = fs(boardinput, 0, 0)
+    elif searchmethod.lower() == 'dfs':
+        res = fs(boardinput, 1, 0)
     elif searchmethod.lower() == 'dls':
-        res = fs(boardinput, 0, extra)
+        res = fs(boardinput, 0, int(extra))
     elif searchmethod.lower() == 'id':
         print('id chosen, its not implemented though... :)')
     elif searchmethod.lower() == 'gbfs':
@@ -380,8 +388,9 @@ def handleinput():
     elif searchmethod.lower() == 'astar':
         res = hs(boardinput, 0)
     if res != 0:
-        print(res)
+        print(*res, sep=", ")
 
 
-# Start the program
+
+    # Start the program
 parseinput()
