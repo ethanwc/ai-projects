@@ -247,8 +247,67 @@ def fs(initial, search, limit):
 def md5(w):
     return hashlib.md5(w).hexdigest()[:9]
 
-# actually, working dfs
+
 def bfs(initial):
+
+    frontier = dict()
+    explored = dict()
+    frontier[md5(np.array(initial).tostring())] = initial
+
+    initial2 = move(initial, getmoves(initial)[0])
+
+    frontier[md5(np.array(initial2).tostring())] = initial2
+
+
+    maxDepth = 100000000
+    currentDepth = 0
+    elementsToDepthIncrease = 1
+    nextElementsToDepthIncrease = 0
+
+    created, expanded, maxfringe = 0, 0, 0
+
+    while frontier:
+
+        location = next(iter(frontier))
+        node = frontier.pop(location)
+
+        if len(frontier) > maxfringe:
+            maxfringe = len(frontier)
+
+
+        hash = md5(np.array(node).tostring())
+        explored[hash] = node
+
+        expanded += 1
+        movecount = 0
+        for path in getmoves(node):
+            child = move(node, path)
+            pathhash = md5(child.tostring())
+            movecount += 1
+            if pathhash not in frontier:
+                if pathhash not in explored:
+                    created += 1
+                    if np.array_equal(child, solution) or np.array_equal(child, solution2):
+                        print(currentDepth, created, expanded, maxfringe)
+                        exit()
+
+                    frontier[pathhash] = child
+                    # print(child)
+
+        nextElementsToDepthIncrease += movecount
+        elementsToDepthIncrease -= 1
+        if elementsToDepthIncrease == 0:
+            currentDepth += 1
+            if currentDepth > maxDepth:
+                return -1, -1, -1, -1
+            elementsToDepthIncrease = nextElementsToDepthIncrease
+            nextElementsToDepthIncrease = 0
+    print('no sol')
+    return -1, -1, -1, -1
+
+
+# actually, working dfs
+def dfs(initial):
 
     frontier = dict()
     explored = dict()
@@ -262,31 +321,30 @@ def bfs(initial):
     created, expanded, maxfringe = 0, 0, 0
 
     while frontier:
-        location = next(iter(frontier))
-        node = frontier.pop(location)
+        if len(frontier) > maxfringe:
+            maxfringe = len(frontier)
+        node = frontier.popitem()[1]
+        # node = frontier.pop(location)
         # print(node)
         # print(frontier.keys()[-1])
         hash = md5(np.array(node).tostring())
         explored[hash] = node
 
         expanded += 1
-        if len(frontier) > maxfringe:
-            maxfringe = len(frontier)
 
         movecount = 0
         # for path in getmoves(node):
-        path = getmoves(node)[0]
+        path = move(node, getmoves(node)[0])
+        pathhash = md5(path.tostring())
         movecount += 1
-        if path not in frontier:
-            if path not in explored:
-                child = move(node, path)
+        if pathhash not in frontier:
+            if pathhash not in explored:
                 created += 1
-                if np.array_equal(child, solution) or np.array_equal(child, solution2):
+                if np.array_equal(path, solution) or np.array_equal(path, solution2):
                     print(currentDepth, created, expanded, maxfringe)
                     exit()
 
-                hash = md5(np.array(child).tostring())
-                frontier[hash] = child
+                frontier[pathhash] = path
 
         nextElementsToDepthIncrease += movecount
         elementsToDepthIncrease -= 1
@@ -432,12 +490,11 @@ def validateinput(initialstate, searchmethod, argcount, boardinput):
 # Handle input after checking it is okay.
 def handleinput(boardinput):
     res = 0
+    # print(boardinput)
     if searchmethod.lower() == 'bfs':
-        res = fs(boardinput, 0, 0)
-    elif searchmethod.lower() == 'fastbfs':
         res = bfs(boardinput)
     elif searchmethod.lower() == 'dfs':
-        res = fs(boardinput, 1, 0)
+        res = dfs(boardinput)
     elif searchmethod.lower() == 'dls':
         res = fs(boardinput, 0, int(extra))
     elif searchmethod.lower() == 'id':
