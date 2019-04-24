@@ -1,3 +1,4 @@
+import hashlib
 import sys
 import numpy as np
 import copy
@@ -30,7 +31,7 @@ class Point:
         self.y = inity
 
 
-searchMethods = {'BFS', 'DFS', 'DLS', 'ID', 'GBFS', 'ASTAR'}
+searchMethods = {'BFS', 'DFS', 'DLS', 'ID', 'GBFS', 'ASTAR', 'FASTBFS'}
 heuristics = {'h1', 'h2'}
 solution = np.array(['1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', ' ']).reshape(4, 4)
 solution2 = np.array(['1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'F', 'E', ' ']).reshape(4, 4)
@@ -243,6 +244,62 @@ def fs(initial, search, limit):
     return -1, -1, -1, -1
 
 
+def md5(w):
+    return hashlib.md5(w).hexdigest()[:9]
+
+# actually, working dfs
+def bfs(initial):
+
+    frontier = dict()
+    explored = dict()
+    frontier[md5(np.array(initial).tostring())] = initial
+
+    maxDepth = 100000000
+    currentDepth = 0
+    elementsToDepthIncrease = 1
+    nextElementsToDepthIncrease = 0
+
+    created, expanded, maxfringe = 0, 0, 0
+
+    while frontier:
+        location = next(iter(frontier))
+        node = frontier.pop(location)
+        # print(node)
+        # print(frontier.keys()[-1])
+        hash = md5(np.array(node).tostring())
+        explored[hash] = node
+
+        expanded += 1
+        if len(frontier) > maxfringe:
+            maxfringe = len(frontier)
+
+        movecount = 0
+        # for path in getmoves(node):
+        path = getmoves(node)[0]
+        movecount += 1
+        if path not in frontier:
+            if path not in explored:
+                child = move(node, path)
+                created += 1
+                if np.array_equal(child, solution) or np.array_equal(child, solution2):
+                    print(currentDepth, created, expanded, maxfringe)
+                    exit()
+
+                hash = md5(np.array(child).tostring())
+                frontier[hash] = child
+
+        nextElementsToDepthIncrease += movecount
+        elementsToDepthIncrease -= 1
+        if elementsToDepthIncrease == 0:
+            currentDepth += 1
+            if currentDepth > maxDepth:
+                return -1, -1, -1, -1
+            elementsToDepthIncrease = nextElementsToDepthIncrease
+            nextElementsToDepthIncrease = 0
+
+    return 0
+
+
 # A-star(0) and greedy search(1)
 def hs(initial, search):
     frontier = PriorityQueue()
@@ -377,6 +434,8 @@ def handleinput(boardinput):
     res = 0
     if searchmethod.lower() == 'bfs':
         res = fs(boardinput, 0, 0)
+    elif searchmethod.lower() == 'fastbfs':
+        res = bfs(boardinput)
     elif searchmethod.lower() == 'dfs':
         res = fs(boardinput, 1, 0)
     elif searchmethod.lower() == 'dls':
