@@ -17,8 +17,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/game.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="59">
-              <caret line="249" column="23" selection-start-line="249" selection-start-column="23" selection-end-line="249" selection-end-column="23" />
+            <state relative-caret-position="66">
+              <caret line="336" column="21" lean-forward="true" selection-start-line="336" selection-start-column="21" selection-end-line="336" selection-end-column="21" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
                 <element signature="e#82#494#0" />
@@ -65,8 +65,6 @@
                 <element signature="e#7784#8296#0" />
                 <element signature="e#7900#8296#0" />
                 <element signature="e#8174#8252#0" />
-                <element signature="e#9162#9272#0" />
-                <element signature="e#9232#9272#0" />
                 <element signature="e#9651#9731#0" />
                 <element signature="e#9830#10021#0" />
                 <element signature="e#9907#10021#0" />
@@ -92,10 +90,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>gbfs sol</find>
-      <find>h1</find>
-      <find>pathcost</find>
-      <find>currentdepth</find>
       <find>element</find>
       <find>currentdep</find>
       <find>initial</find>
@@ -120,8 +114,12 @@
       <find>append</find>
       <find>contains</find>
       <find>swap</find>
-      <find>bfs</find>
       <find>invalid</find>
+      <find>fastbfs</find>
+      <find>next(i</find>
+      <find>next(it</find>
+      <find>bfs</find>
+      <find>dfs</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -163,7 +161,7 @@
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Console Colors" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -331,11 +329,25 @@
       <option name="project" value="LOCAL" />
       <updated>1556129689921</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="new commit. epic">
+      <created>1556143708505</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1556143708505</updated>
+    </task>
+    <task id="LOCAL-00016" summary="bfs, dfs using dictonary...faster">
+      <created>1556148932897</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1556148932898</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="110680000" />
+    <option name="totallyTimeSpent" value="119733000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-35" width="1600" height="935" extended-state="0" />
@@ -354,8 +366,8 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.34140435" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5006435" side_tool="true" weight="0.79418886" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4993565" weight="0.8171913" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32928476" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -402,7 +414,8 @@
     <MESSAGE value="logging depth" />
     <MESSAGE value="dls" />
     <MESSAGE value="new commit. epic" />
-    <option name="LAST_COMMIT_MESSAGE" value="new commit. epic" />
+    <MESSAGE value="bfs, dfs using dictonary...faster" />
+    <option name="LAST_COMMIT_MESSAGE" value="bfs, dfs using dictonary...faster" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/15_puzzle$game.coverage" NAME="game Coverage Results" MODIFIED="1555039559224" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -440,8 +453,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="249" column="23" selection-start-line="249" selection-start-column="23" selection-end-line="249" selection-end-column="23" />
+        <state relative-caret-position="66">
+          <caret line="336" column="21" lean-forward="true" selection-start-line="336" selection-start-column="21" selection-end-line="336" selection-end-column="21" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#82#494#0" />
@@ -488,8 +501,6 @@
             <element signature="e#7784#8296#0" />
             <element signature="e#7900#8296#0" />
             <element signature="e#8174#8252#0" />
-            <element signature="e#9162#9272#0" />
-            <element signature="e#9232#9272#0" />
             <element signature="e#9651#9731#0" />
             <element signature="e#9830#10021#0" />
             <element signature="e#9907#10021#0" />

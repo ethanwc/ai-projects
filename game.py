@@ -224,11 +224,11 @@ def fs(initial, search, limit):
                     return depth, numcreated, numexpanded, maxfringe
                 frontier.append(child)
 
-        # if search:
-        #     depth += 1
+            # if search:
+            #     depth += 1
 
-        # if search is bfs, count
-        # if not search:
+            # if search is bfs, count
+            # if not search:
             nextdepthincrease += len(moves)
             depthincrease -= 1
             if depthincrease == 0:
@@ -249,31 +249,26 @@ def md5(w):
 
 
 def bfs(initial):
-
     frontier = dict()
     explored = dict()
     frontier[md5(np.array(initial).tostring())] = initial
 
-    initial2 = move(initial, getmoves(initial)[0])
-
-    frontier[md5(np.array(initial2).tostring())] = initial2
-
-
     maxDepth = 100000000
-    currentDepth = 0
+    currentDepth = 1
     elementsToDepthIncrease = 1
     nextElementsToDepthIncrease = 0
 
     created, expanded, maxfringe = 0, 0, 0
 
     while frontier:
-
         location = next(iter(frontier))
         node = frontier.pop(location)
+        print('****parent node****')
+        print(node)
+        print('*******************')
 
         if len(frontier) > maxfringe:
             maxfringe = len(frontier)
-
 
         hash = md5(np.array(node).tostring())
         explored[hash] = node
@@ -284,20 +279,22 @@ def bfs(initial):
             child = move(node, path)
             pathhash = md5(child.tostring())
             movecount += 1
-            if pathhash not in frontier:
-                if pathhash not in explored:
-                    created += 1
-                    if np.array_equal(child, solution) or np.array_equal(child, solution2):
-                        print(currentDepth, created, expanded, maxfringe)
-                        exit()
+            if pathhash not in frontier and pathhash not in explored:
+                created += 1
+                print(child)
 
-                    frontier[pathhash] = child
-                    # print(child)
+                if np.array_equal(child, solution) or np.array_equal(child, solution2):
+                    print(child)
+                    print(currentDepth, created, expanded, maxfringe)
+                    exit()
+
+                frontier[pathhash] = child
 
         nextElementsToDepthIncrease += movecount
         elementsToDepthIncrease -= 1
         if elementsToDepthIncrease == 0:
             currentDepth += 1
+            print('depth level', currentDepth)
             if currentDepth > maxDepth:
                 return -1, -1, -1, -1
             elementsToDepthIncrease = nextElementsToDepthIncrease
@@ -308,13 +305,12 @@ def bfs(initial):
 
 # actually, working dfs
 def dfs(initial):
-
     frontier = dict()
     explored = dict()
     frontier[md5(np.array(initial).tostring())] = initial
 
     maxDepth = 100000000
-    currentDepth = 0
+    currentDepth = 1
     elementsToDepthIncrease = 1
     nextElementsToDepthIncrease = 0
 
@@ -323,33 +319,41 @@ def dfs(initial):
     while frontier:
         if len(frontier) > maxfringe:
             maxfringe = len(frontier)
+
         node = frontier.popitem()[1]
-        # node = frontier.pop(location)
-        # print(node)
-        # print(frontier.keys()[-1])
+
+        print('****parent node****')
+        print(node)
+        print('*******************')
         hash = md5(np.array(node).tostring())
         explored[hash] = node
 
-        expanded += 1
+        # 1234
+        # 5678
+        # A9BC
+        # DFE
 
+        expanded += 1
         movecount = 0
-        # for path in getmoves(node):
-        path = move(node, getmoves(node)[0])
-        pathhash = md5(path.tostring())
-        movecount += 1
-        if pathhash not in frontier:
-            if pathhash not in explored:
+        # todo: reverse the paths
+        for path in reversed(getmoves(node)):
+            child = move(node, path)
+            pathhash = md5(child.tostring())
+            movecount += 1
+            if pathhash not in frontier and pathhash not in explored:
                 created += 1
-                if np.array_equal(path, solution) or np.array_equal(path, solution2):
+                print(child)
+                if np.array_equal(child, solution) or np.array_equal(child, solution2):
                     print(currentDepth, created, expanded, maxfringe)
                     exit()
 
-                frontier[pathhash] = path
+                frontier[pathhash] = child
 
         nextElementsToDepthIncrease += movecount
         elementsToDepthIncrease -= 1
         if elementsToDepthIncrease == 0:
             currentDepth += 1
+            print('depth level', currentDepth)
             if currentDepth > maxDepth:
                 return -1, -1, -1, -1
             elementsToDepthIncrease = nextElementsToDepthIncrease
@@ -506,7 +510,7 @@ def handleinput(boardinput):
     if res != 0:
         print(*res, sep=", ")
 
-
-
     # Start the program
+
+
 parseinput()
