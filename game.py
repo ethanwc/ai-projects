@@ -263,9 +263,9 @@ def bfs(initial):
     while frontier:
         location = next(iter(frontier))
         node = frontier.pop(location)
-        print('****parent node****')
-        print(node)
-        print('*******************')
+        # print('****parent node****')
+        # print(node)
+        # print('*******************')
 
         if len(frontier) > maxfringe:
             maxfringe = len(frontier)
@@ -281,7 +281,7 @@ def bfs(initial):
             movecount += 1
             if pathhash not in frontier and pathhash not in explored:
                 created += 1
-                print(child)
+                # print(child)
 
                 if np.array_equal(child, solution) or np.array_equal(child, solution2):
                     print(child)
@@ -304,12 +304,19 @@ def bfs(initial):
 
 
 # actually, working dfs
-def dfs(initial):
+def dfs(initial, limit):
     frontier = dict()
     explored = dict()
     frontier[md5(np.array(initial).tostring())] = initial
 
+
     maxDepth = 100000000
+
+
+    if limit != 0:
+        maxDepth = limit
+
+
     currentDepth = 1
     elementsToDepthIncrease = 1
     nextElementsToDepthIncrease = 0
@@ -322,9 +329,9 @@ def dfs(initial):
 
         node = frontier.popitem()[1]
 
-        print('****parent node****')
-        print(node)
-        print('*******************')
+        # print('****parent node****')
+        # print(node)
+        # print('*******************')
         hash = md5(np.array(node).tostring())
         explored[hash] = node
 
@@ -342,7 +349,7 @@ def dfs(initial):
             movecount += 1
             if pathhash not in frontier and pathhash not in explored:
                 created += 1
-                print(child)
+                # print(child)
                 if np.array_equal(child, solution) or np.array_equal(child, solution2):
                     print(currentDepth, created, expanded, maxfringe)
                     exit()
@@ -353,9 +360,10 @@ def dfs(initial):
         elementsToDepthIncrease -= 1
         if elementsToDepthIncrease == 0:
             currentDepth += 1
-            print('depth level', currentDepth)
             if currentDepth > maxDepth:
                 return -1, -1, -1, -1
+            else:
+                print('depth level', currentDepth)
             elementsToDepthIncrease = nextElementsToDepthIncrease
             nextElementsToDepthIncrease = 0
 
@@ -498,9 +506,9 @@ def handleinput(boardinput):
     if searchmethod.lower() == 'bfs':
         res = bfs(boardinput)
     elif searchmethod.lower() == 'dfs':
-        res = dfs(boardinput)
+        res = dfs(boardinput, 0)
     elif searchmethod.lower() == 'dls':
-        res = fs(boardinput, 0, int(extra))
+        res = dfs(boardinput, int(extra))
     elif searchmethod.lower() == 'id':
         print('id chosen, its not implemented though... :)')
     elif searchmethod.lower() == 'gbfs':
