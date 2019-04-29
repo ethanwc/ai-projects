@@ -4,6 +4,7 @@
     <list default="true" id="78302b1b-12fa-4d39-a9d7-55898d7d00ae" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.txt" beforeDir="false" afterPath="$PROJECT_DIR$/readme.txt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,11 +18,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/game.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25">
-              <caret line="284" lean-forward="true" selection-start-line="284" selection-end-line="284" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="480">
+              <caret line="289" column="28" selection-start-line="289" selection-start-column="28" selection-end-line="289" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/readme.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -37,12 +44,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>currentdep</find>
-      <find>initial</find>
-      <find>HERE</find>
-      <find>found sol in</find>
-      <find>heuristic</find>
-      <find>no heuris</find>
       <find>parseinput</find>
       <find>hi</find>
       <find>'hi'</find>
@@ -66,7 +67,13 @@
       <find>next(it</find>
       <find>dfs</find>
       <find>depth level</find>
+      <find>no heur</find>
+      <find>node</find>
+      <find>move</find>
       <find>bfs</find>
+      <find>child</find>
+      <find>initial</find>
+      <find>BFS</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -99,7 +106,20 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="15-puzzle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="15-puzzle" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -178,6 +198,7 @@
       <workItem from="1555950681528" duration="17138000" />
       <workItem from="1555977483675" duration="853000" />
       <workItem from="1556308323665" duration="2824000" />
+      <workItem from="1556577296727" duration="872000" />
     </task>
     <task id="LOCAL-00001" summary="robust input handling">
       <created>1554750198965</created>
@@ -295,7 +316,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="122557000" />
+    <option name="totallyTimeSpent" value="132222000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -308,8 +329,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-35" width="1600" height="935" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.35778636" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12483913" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -323,7 +345,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.501287" side_tool="true" weight="0.8486683" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.498713" visible="true" weight="0.8486683" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.498713" visible="true" weight="0.3062954" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32928476" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -386,13 +408,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/readme.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/lib/python3.6/heapq.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="87">
@@ -407,13 +422,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/readme.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="284" lean-forward="true" selection-start-line="284" selection-end-line="284" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="480">
+          <caret line="289" column="28" selection-start-line="289" selection-start-column="28" selection-end-line="289" selection-end-column="28" />
         </state>
       </provider>
     </entry>

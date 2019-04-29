@@ -6,6 +6,16 @@ import copy
 import heapq
 
 
+# Represent the state of the board
+class State:
+    state = []
+    depth = None
+
+    def __init__(self, initial):
+        self.state = initial
+        self.depth = 0
+
+
 class PriorityQueue:
     def __init__(self):
         self._queue = []
@@ -108,11 +118,11 @@ def pathcost(initial, current):
 
 
 # move the blank space of the board, by swapping its index with another piece
-def move(board, move):
-    newboard = copy.deepcopy(board)
+def move(state, move):
+    newstate = copy.deepcopy(state)
     for i in range(0, size):
         for j in range(0, size):
-            if newboard[i][j] == ' ':
+            if newstate.state[i][j] == ' ':
                 xoff = yoff = 0
                 if move == 'right':
                     xoff = 1
@@ -123,11 +133,14 @@ def move(board, move):
                 if move == 'down':
                     yoff = 1
 
-                temp = newboard[i + yoff][j + xoff]
-                newboard[i + yoff][j + xoff] = newboard[i][j]
-                newboard[i][j] = temp
-                return newboard
-    return newboard
+                temp = newstate.state[i + yoff][j + xoff]
+                newstate.state[i + yoff][j + xoff] = newstate.state[i][j]
+                newstate.state[i][j] = temp
+                newstate.depth += 1
+                return newstate
+    print('error')
+    exit(1)
+    return 0
 
 
 # get all possible moves that can be made based on a board in a certain state
@@ -169,17 +182,16 @@ def md5(w):
     return hashlib.md5(w).hexdigest()[:9]
 
 
+# Input is a state object of state and depth
 def bfs(initial):
     frontier = dict()
     explored = dict()
-    frontier[md5(np.array(initial).tostring())] = initial
-
-    maxDepth = 100000000
-    currentDepth = 1
-    elementsToDepthIncrease = 1
-    nextElementsToDepthIncrease = 0
+    frontier[md5(np.array(initial.state).tostring())] = initial
 
     created, expanded, maxfringe = 0, 0, 0
+
+    if np.array_equal(initial.state, solution):
+        return 0, 0, 0, 0
 
     while frontier:
         location = next(iter(frontier))
@@ -188,51 +200,35 @@ def bfs(initial):
         if len(frontier) > maxfringe:
             maxfringe = len(frontier)
 
-        hash = md5(np.array(node).tostring())
+        hash = md5(np.array(node.state).tostring())
         explored[hash] = node
-
         expanded += 1
         movecount = 0
-        for path in getmoves(node):
+        for path in getmoves(node.state):
+            # child should be state object
             child = move(node, path)
-            pathhash = md5(child.tostring())
+            pathhash = md5(np.array(child.state).tostring())
             movecount += 1
             if pathhash not in frontier and pathhash not in explored:
                 created += 1
 
-                if np.array_equal(child, solution) or np.array_equal(child, solution2):
-                    return currentDepth, created, expanded, maxfringe
+                if np.array_equal(child.state, solution) or np.array_equal(child.state, solution2):
+                    return child.depth, created, expanded, maxfringe
 
                 frontier[pathhash] = child
 
-        nextElementsToDepthIncrease += movecount
-        elementsToDepthIncrease -= 1
-        if elementsToDepthIncrease == 0:
-            currentDepth += 1
-            # print('depth level', currentDepth)
-            if currentDepth > maxDepth:
-                return -1, -1, -1, -1
-            elementsToDepthIncrease = nextElementsToDepthIncrease
-            nextElementsToDepthIncrease = 0
     return -1, -1, -1, -1
 
 
-# actually, working dfs
+# dfs/ dls
 def dfs(initial, limit):
     frontier = dict()
     explored = dict()
-    frontier[md5(np.array(initial).tostring())] = initial
+    frontier[md5(np.array(initial.state).tostring())] = initial
 
-
-    maxDepth = 100000000
-
-
+    maxdepth = 100000000
     if limit != 0:
-        maxDepth = limit
-
-    currentDepth = 1
-    elementsToDepthIncrease = 1
-    nextElementsToDepthIncrease = 0
+        maxdepth = limit
 
     created, expanded, maxfringe = 0, 0, 0
 
@@ -241,30 +237,25 @@ def dfs(initial, limit):
             maxfringe = len(frontier)
 
         node = frontier.popitem()[1]
-        hash = md5(np.array(node).tostring())
+
+        if not node.depth < maxdepth:
+            return -1, 0, 0, 0
+
+        hash = md5(np.array(node.state).tostring())
         explored[hash] = node
 
         expanded += 1
         movecount = 0
-        for path in reversed(getmoves(node)):
+        for path in reversed(getmoves(node.state)):
             child = move(node, path)
-            pathhash = md5(child.tostring())
+            pathhash = md5((np.array(child.state)).tostring())
             movecount += 1
             if pathhash not in frontier and pathhash not in explored:
                 created += 1
-                if np.array_equal(child, solution) or np.array_equal(child, solution2):
-                    return currentDepth, created, expanded, maxfringe
+                if np.array_equal(child.state, solution) or np.array_equal(child.state, solution2):
+                    return child.depth, created, expanded, maxfringe
 
                 frontier[pathhash] = child
-
-        nextElementsToDepthIncrease += movecount
-        elementsToDepthIncrease -= 1
-        if elementsToDepthIncrease == 0:
-            currentDepth += 1
-            if currentDepth > maxDepth:
-                return -1, -1, -1, -1
-            elementsToDepthIncrease = nextElementsToDepthIncrease
-            nextElementsToDepthIncrease = 0
 
     return 0
 
@@ -274,21 +265,15 @@ def hs(initial, search):
     frontier = PriorityQueue()
     frontier.push(initial, 1)
     explored = []
-    if np.array_equal(initial, solution):
+    if np.array_equal(initial.state, solution):
         return 0, 0, 0, 0
-
-    maxDepth = 100000000
-    currentDepth = 0
-    elementsToDepthIncrease = 1
-    nextElementsToDepthIncrease = 0
 
     created, expanded, maxfringe = 0, 0, 0
 
     while frontier.size() > 0:
         node = frontier.pop()
-        # print(node)
         explored.append(node)
-        moves = getmoves(node)
+        moves = getmoves(node.state)
         expanded += 1
         if frontier.size() > maxfringe:
             maxfringe = frontier.size()
@@ -296,25 +281,15 @@ def hs(initial, search):
             child = move(node, moves[i])
             created += 1
             if not contains(child, explored):
-                if np.array_equal(child, solution2) or np.array_equal(child, solution):
-                    return currentDepth, created, expanded, maxfringe
+                if np.array_equal(child.state, solution2) or np.array_equal(child.state, solution):
+                    return child.depth, created, expanded, maxfringe
 
                 # g + h for astar, h for greedy
-                cost = h(child)
+                cost = h(child.state)
                 if not search:
                     # add cost to current path for a-star
-                    cost += currentDepth
-
+                    cost += child.depth
                 frontier.push(child, cost)
-
-        nextElementsToDepthIncrease += len(moves)
-        elementsToDepthIncrease -= 1
-        if elementsToDepthIncrease == 0:
-            currentDepth += 1
-            if currentDepth > maxDepth:
-                return -1, -1, -1, -1
-            elementsToDepthIncrease = nextElementsToDepthIncrease
-            nextElementsToDepthIncrease = 0
 
     return -1, -1, -1, -1
 
@@ -400,22 +375,23 @@ def validateinput(initialstate, searchmethod, argcount, boardinput):
 
 # Handle input after checking it is okay.
 def handleinput(boardinput):
+    puzzle = State(boardinput)
     res = 0
     if searchmethod.lower() == 'bfs':
-        res = bfs(boardinput)
+        res = bfs(puzzle)
     elif searchmethod.lower() == 'dfs':
-        res = dfs(boardinput, 0)
+        res = dfs(puzzle, 0)
     elif searchmethod.lower() == 'dls':
-        res = dfs(boardinput, int(extra))
+        res = dfs(puzzle, int(extra))
     elif searchmethod.lower() == 'id':
         print('id chosen, its not implemented though... :)')
     elif searchmethod.lower() == 'gbfs':
-        res = hs(boardinput, 1)
+        res = hs(puzzle, 1)
     elif searchmethod.lower() == 'astar':
-        res = hs(boardinput, 0)
+        res = hs(puzzle, 0)
     if res != 0:
         print(*res, sep=", ")
 
-    # Start the program
 
+# Start the program
 parseinput()
