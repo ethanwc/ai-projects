@@ -23,6 +23,7 @@ class Board:
         board2 = np.array(board).reshape(6,6)
         print(board2)
         l = board2.tolist()
+
         for offset in range(0, 2):
             # for x in range()
             for x in range(offset, 5 + offset):
@@ -30,8 +31,17 @@ class Board:
                 for y in range(offset, 5 + offset):
                     if check != l[x][y]:
                         win = False
-                    else:
-                        print(x + 1, y + 1)
+
+                if win:
+                    # print(x, y)
+                    # print(check, l[x][y])
+                    return True
+
+            for y in range(offset, 5 + offset):
+                win = True
+                for x in range(offset, 5 + offset):
+                    if check != l[x][y]:
+                        win = False
 
                 if win:
                     # print(x, y)
@@ -110,17 +120,26 @@ r.set(1,3,'g')
 r.set(2,1,'g')
 r.set(3,1,'g')
 f = Grid(3)
-
-f.set(1,1,'g')
-f.set(1,2,'g')
-f.set(2,1,'g')
+r.set(2,2,'g')
+# r.set(3,3,'g')
 
 
-v.set(1,1,'g')
-v.set(1,2,'g')
-f.set(2,2, 5)
+# f.set(1,1,'g')
+# f.set(1,2,'g')
+# f.set(2,1,'g')
+#
+#
+# v.set(1,1,'g')
+# v.set(1,2,'g')
+# f.set(2,2, 5)
 # r.print()
 
+# f.set(3,1,'g')
+# f.set(2,2,'g')
+f.set(1,3,'g')
+v.set(3,1,'g')
+v.set(2,2,'g')
+v.set(1,3,'g')
 test2 = [r, f, v, r]
 board = Board(test2, 2)
 # board.print()
