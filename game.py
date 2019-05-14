@@ -272,6 +272,7 @@ def hs(initial, search):
 
     while frontier.size() > 0:
         node = frontier.pop()
+        print(node.state)
         explored.append(node)
         moves = getmoves(node.state)
         expanded += 1

@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="78302b1b-12fa-4d39-a9d7-55898d7d00ae" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/pentago.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.txt" beforeDir="false" afterPath="$PROJECT_DIR$/readme.txt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,11 +15,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/game.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="289" column="28" selection-start-line="289" selection-start-column="28" selection-end-line="289" selection-end-column="28" />
+            <state relative-caret-position="137">
+              <caret line="267" column="14" selection-start-line="267" selection-start-column="7" selection-end-line="267" selection-end-column="14" />
+              <folding>
+                <element signature="e#43#57#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pentago.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="96">
+              <caret line="115" column="13" selection-start-line="115" selection-start-column="13" selection-end-line="115" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -44,9 +56,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>parseinput</find>
-      <find>hi</find>
-      <find>'hi'</find>
       <find>boardinput</find>
       <find>astar</find>
       <find>depth leng</find>
@@ -58,7 +67,6 @@
       <find>argcount</find>
       <find>depth &gt; m</find>
       <find>dls</find>
-      <find>append</find>
       <find>contains</find>
       <find>swap</find>
       <find>invalid</find>
@@ -74,6 +82,10 @@
       <find>child</find>
       <find>initial</find>
       <find>BFS</find>
+      <find>append</find>
+      <find>np.arra</find>
+      <find>9</find>
+      <find>else</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -90,10 +102,11 @@
         <option value="$PROJECT_DIR$/queue.py" />
         <option value="$PROJECT_DIR$/readme.txt" />
         <option value="$PROJECT_DIR$/game.py" />
+        <option value="$PROJECT_DIR$/pentago.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="800" />
     <option name="y" value="28" />
     <option name="width" value="800" />
@@ -198,7 +211,12 @@
       <workItem from="1555950681528" duration="17138000" />
       <workItem from="1555977483675" duration="853000" />
       <workItem from="1556308323665" duration="2824000" />
-      <workItem from="1556577296727" duration="872000" />
+      <workItem from="1556577296727" duration="1613000" />
+      <workItem from="1556659930328" duration="232000" />
+      <workItem from="1556660266627" duration="1140000" />
+      <workItem from="1557777661008" duration="126000" />
+      <workItem from="1557782201516" duration="11000" />
+      <workItem from="1557782319933" duration="9621000" />
     </task>
     <task id="LOCAL-00001" summary="robust input handling">
       <created>1554750198965</created>
@@ -312,11 +330,18 @@
       <option name="project" value="LOCAL" />
       <updated>1556148932898</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="done?">
+      <created>1556578260710</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1556578260710</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="132222000" />
+    <option name="totallyTimeSpent" value="144093000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -328,10 +353,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="-35" width="1600" height="935" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="28" width="1600" height="872" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12483913" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13449164" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -345,7 +369,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.501287" side_tool="true" weight="0.8486683" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.498713" visible="true" weight="0.3062954" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.498713" visible="true" weight="0.64102566" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32928476" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -393,7 +417,8 @@
     <MESSAGE value="dls" />
     <MESSAGE value="new commit. epic" />
     <MESSAGE value="bfs, dfs using dictonary...faster" />
-    <option name="LAST_COMMIT_MESSAGE" value="bfs, dfs using dictonary...faster" />
+    <MESSAGE value="done?" />
+    <option name="LAST_COMMIT_MESSAGE" value="done?" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/15_puzzle$game.coverage" NAME="game Coverage Results" MODIFIED="1556308451411" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -431,8 +456,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="289" column="28" selection-start-line="289" selection-start-column="28" selection-end-line="289" selection-end-column="28" />
+        <state relative-caret-position="137">
+          <caret line="267" column="14" selection-start-line="267" selection-start-column="7" selection-end-line="267" selection-end-column="14" />
+          <folding>
+            <element signature="e#43#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pentago.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="115" column="13" selection-start-line="115" selection-start-column="13" selection-end-line="115" selection-end-column="13" />
         </state>
       </provider>
     </entry>
