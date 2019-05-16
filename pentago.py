@@ -1,5 +1,6 @@
 # TCSS 435 PA #2 - Ethan Cheatham
 import random
+import copy
 import numpy as np
 
 
@@ -9,6 +10,35 @@ class Board:
         self.width = width
         self.size = width * width
         self.turn = random.choice(['W', 'B'])
+
+    # Generate all possible rotations the player can pick
+    # Should just be 1-4 l or r. Rules might complicate things for initial rounds TODO: hi
+    # Takes in all possible moves for next state, returns all rotations for each move
+    def getrotations(self, moves):
+        rotations = []
+
+        for move in moves:
+            # Various rotations for each grid
+            for g in range(0, len(self.grids)):
+                rotations.append(copy.deepcopy(move).grids[g].rotatecw())
+                rotations.append(copy.deepcopy(move).grids[g].rotateccw())
+
+        print(len(rotations))
+
+    # Generate all possible spots where the given player can go
+    def getspots(self):
+        moves = []
+
+        for g in range(1, len(self.grids) + 1):
+            for d in range(1, len(self.grids[g - 1].data) + 1):
+                if self.grids[g - 1].data[d - 1] == '.':
+                    clone = copy.deepcopy(self)
+                    clone.set(self.turn, g, d)
+                    moves.append(clone)
+                    # clone.print()
+
+        return moves
+
 
     def handlewin(self):
         exit(0)
@@ -135,15 +165,17 @@ def readinput():
 
 board = Board([Grid(3), Grid(3), Grid(3), Grid(3)], 2)
 
-while(1):
-    res = readinput()
-    # make sure the move is legal before proceeding
-    if board.isavail(int(res[0]), int(res[1])):
-        board.set(board.turn, int(res[0]), int(res[1]))
-        board.checkwins()
-        board.turn = 'B' if board.turn == 'W' else 'W'
-        board.grids[int(res[2]) - 1].rotate(res[3])
-        board.checkwins()
-        board.print()
-    else:
-        print("Spot taken.")
+# while(1):
+#     res = readinput()
+#     # make sure the move is legal before proceeding
+#     if board.isavail(int(res[0]), int(res[1])):
+#         board.set(board.turn, int(res[0]), int(res[1]))
+#         board.checkwins()
+#         board.turn = 'B' if board.turn == 'W' else 'W'
+#         board.grids[int(res[2]) - 1].rotate(res[3])
+#         board.checkwins()
+#         board.print()
+#     else:
+#         print("Spot taken.")
+
+board.getrotations(board.getspots())
