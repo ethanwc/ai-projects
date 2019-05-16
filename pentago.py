@@ -1,3 +1,5 @@
+# TCSS 435 PA #2 - Ethan Cheatham
+import random
 import numpy as np
 
 
@@ -6,10 +8,18 @@ class Board:
         self.grids = grids
         self.width = width
         self.size = width * width
+        self.turn = random.choice(['W', 'B'])
 
+    def handlewin(self):
+        exit(0)
+
+    # Check both players for a win
+    def checkwins(self):
+        if self.checkwin('W') or self.checkwin('B'):
+            self.handlewin()
+
+    # Stitch together grids to check the board for a win for one person
     def checkwin(self, check):
-        # cases to check: horizontal left, horizontal right, vertical bottom, vertical top, \, \ - 1, /, \ - 1
-
         board = []
 
         for y in range(3):
@@ -31,10 +41,7 @@ class Board:
                 for y in range(offset, 5 + offset):
                     if check != l[x][y]:
                         win = False
-
                 if win:
-                    # print(x, y)
-                    # print(check, l[x][y])
                     return True
 
             for y in range(offset, 5 + offset):
@@ -44,8 +51,6 @@ class Board:
                         win = False
 
                 if win:
-                    # print(x, y)
-                    # print(check, l[x][y])
                     return True
 
         if l[0][0] == check or l[5][5] == check:
@@ -56,21 +61,34 @@ class Board:
             if l[1][4] == check and l[2][3] == check and l[3][2] == check and l[4][1] == check:
                 return True
 
-        return False
+        return
+
+    # check if a move can be made...no marble in spot
+    def isavail(self, grid, spot):
+        return self.grids[grid - 1].data[spot - 1] == '.'
+
+    # input which grid 1-4, and tile 1-9
+    def set(self, player, grid, spot):
+            self.grids[grid - 1].data[spot - 1] = player
 
     def print(self):
-        print("-----------------------------------------")
+        print("+------------+------------+")
         for y in range(3):
             for g in range(2):
                 for x in range(3):
-                    print(self.grids[g].data[x + 3 * y], end='\t')
-            print("\n\n")
-        print("-----------------------------------------")
+                    if x == 0:
+                        print('|', end='')
+                    print(' ', self.grids[g].data[x + 3 * y], end=' ')
+            print('|')
+        print("+------------+------------+")
         for y in range(3):
             for g in range(2, 4):
                 for x in range(3):
-                    print(self.grids[g].data[x + 3 * y], end='\t')
-            print("\n\n")
+                    if x == 0:
+                        print('|', end='')
+                    print(' ', self.grids[g].data[x + 3 * y], end=' ')
+            print('|')
+        print("+------------+------------+")
 
 
 # Board is composed of four grids to represent game state.
@@ -83,7 +101,7 @@ class Grid:
         for i in range(self.size):
             self.data.append('.')
 
-    # Set a specific spot to a move from either player
+    # Set a specific spot to a move from either player, should probably use the board set method.
     def set(self, x, y, val):
         self.data[(x - 1) + (y - 1) * self.width] = val
 
@@ -93,6 +111,12 @@ class Grid:
             if i % self.width == 0:
                 print("\n")
 
+    def rotate(self, direction):
+        if direction == 'L':
+            self.rotateccw()
+        else:
+            self.rotatecw()
+
     def rotatecw(self):
         self.data = np.rot90(np.array(self.data).reshape(self.width, self.width), 3).flatten().tolist()
 
@@ -100,48 +124,26 @@ class Grid:
         self.data = np.rot90(np.array(self.data).reshape(self.width, self.width)).flatten().tolist()
 
 
-test = Grid(3)
-# test.print()
-test.set(1, 1, 11)
-test.set(1, 3, 1)
-test.set(3, 1, 2)
-# test.print()
-
-# test.rotatecw()
-
-
-# test.print()
-r = Grid(3)
-v = Grid(3)
-
-r.set(1,1,'g')
-r.set(1,2,'g')
-r.set(1,3,'g')
-r.set(2,1,'g')
-r.set(3,1,'g')
-f = Grid(3)
-r.set(2,2,'g')
-# r.set(3,3,'g')
+def readinput():
+    userinput = input('Enter move\n')
+    gridmove = userinput[0]
+    spot = userinput[2]
+    gridrotate = userinput[4]
+    direction = userinput[5]
+    return gridmove, spot, gridrotate, direction
 
 
-# f.set(1,1,'g')
-# f.set(1,2,'g')
-# f.set(2,1,'g')
-#
-#
-# v.set(1,1,'g')
-# v.set(1,2,'g')
-# f.set(2,2, 5)
-# r.print()
+board = Board([Grid(3), Grid(3), Grid(3), Grid(3)], 2)
 
-# f.set(3,1,'g')
-# f.set(2,2,'g')
-f.set(1,3,'g')
-v.set(3,1,'g')
-v.set(2,2,'g')
-v.set(1,3,'g')
-test2 = [r, f, v, r]
-board = Board(test2, 2)
-# board.print()
-
-print(board.checkwin('g'))
+while(1):
+    res = readinput()
+    # make sure the move is legal before proceeding
+    if board.isavail(int(res[0]), int(res[1])):
+        board.set(board.turn, int(res[0]), int(res[1]))
+        board.checkwins()
+        board.turn = 'B' if board.turn == 'W' else 'W'
+        board.grids[int(res[2]) - 1].rotate(res[3])
+        board.checkwins()
+        board.print()
+    else:
+        print("Spot taken.")

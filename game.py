@@ -396,3 +396,4 @@ def handleinput(boardinput):
 
 # Start the program
 parseinput()
+
