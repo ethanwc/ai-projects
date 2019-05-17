@@ -11,8 +11,14 @@ class Board:
         self.size = width * width
         self.turn = random.choice(['W', 'B'])
 
+    def heuristic(self):
+        print('whats a heuristic?')
+
     # Generate all possible rotations the player can pick
     # Should just be 1-4 l or r. Rules might complicate things for initial rounds TODO: hi
+    # TODO: can't twist the grid that you just placed a marble on
+    # TODO: check that board is full with no winners
+
     # Takes in all possible moves for next state, returns all rotations for each move
     def getrotations(self, moves):
         rotations = []
@@ -24,6 +30,22 @@ class Board:
                 rotations.append(copy.deepcopy(move).grids[g].rotateccw())
 
         print(len(rotations))
+
+    # Get the board as a single 2d array
+    def getboard(self):
+        board = []
+
+        for y in range(3):
+            for g in range(2):
+                for x in range(3):
+                    board.append(self.grids[g].data[x + 3 * y])
+        for y in range(3):
+            for g in range(2, 4):
+                for x in range(3):
+                    board.append(self.grids[g].data[x + 3 * y])
+        board2 = np.array(board).reshape(6, 6)
+        # print(board2)
+        return board2
 
     # Generate all possible spots where the given player can go
     def getspots(self):
@@ -48,21 +70,9 @@ class Board:
         if self.checkwin('W') or self.checkwin('B'):
             self.handlewin()
 
-    # Stitch together grids to check the board for a win for one person
+    # check the board for a win for one person
     def checkwin(self, check):
-        board = []
-
-        for y in range(3):
-            for g in range(2):
-                for x in range(3):
-                    board.append(self.grids[g].data[x + 3 * y])
-        for y in range(3):
-            for g in range(2, 4):
-                for x in range(3):
-                    board.append(self.grids[g].data[x + 3 * y])
-        board2 = np.array(board).reshape(6,6)
-        print(board2)
-        l = board2.tolist()
+        l = self.getboard().tolist()
 
         for offset in range(0, 2):
             # for x in range()
@@ -82,14 +92,25 @@ class Board:
 
                 if win:
                     return True
-
+        # check \
         if l[0][0] == check or l[5][5] == check:
             if l[1][1] == check and l[2][2] == check and l[3][3] == check and l[4][4] == check:
                 return True
+        # check 5 in a row 1 above, 1 below
+        if l[0][1] == check and l[1][2] == check and l[2][3] == check and l[3][4] == check and l[4][5] == check:
+            return True
+        if l[1][0] == check and l[2][1] == check and l[3][2] == check and l[4][3] == check and l[5][4] == check:
+            return True
 
+        # check /
         if l[0][5] == check or l[5][0] == check:
             if l[1][4] == check and l[2][3] == check and l[3][2] == check and l[4][1] == check:
                 return True
+        # check 5 in a row 1 above, 1 below
+        if l[0][4] == check and l[1][3] == check and l[2][2] == check and l[3][1] == check and l[4][0] == check:
+            return True
+        if l[1][5] == check and l[2][4] == check and l[3][3] == check and l[4][2] == check and l[5][1] == check:
+            return True
 
         return
 
@@ -179,3 +200,5 @@ board = Board([Grid(3), Grid(3), Grid(3), Grid(3)], 2)
 #         print("Spot taken.")
 
 board.getrotations(board.getspots())
+
+
