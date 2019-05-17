@@ -12,7 +12,93 @@ class Board:
         self.turn = random.choice(['W', 'B'])
 
     def heuristic(self):
-        print('whats a heuristic?')
+        state = self.getboard()
+        total, count, streak = 0, 0, 0
+        temp = 0
+        # check values vertically
+        for y in range(6):
+            for x in range(6):
+                # If the spot is blank or an opponent it ruins a streak.
+                if state[x][y] != self.turn:
+                    total += count
+                    streak, count = 0, 0
+                # Streak is still going or starting
+                else:
+                    streak += 1
+                    count += 1 if count == 0 else count * streak
+
+            total += count
+            streak, count = 0, 0
+
+        print("Vertical total", total)
+        temp += total
+        total, count, streak = 0, 0, 0
+        # check values horizontally
+        for x in range(6):
+            for y in range(6):
+                # If the spot is blank or an opponent it ruins a streak.
+                if state[x][y] != self.turn:
+                    total += count
+                    streak, count = 0, 0
+                # Streak is still going or starting
+                else:
+                    streak += 1
+                    count += 1 if count == 0 else count * streak
+
+            total += count
+            streak, count = 0, 0
+
+        print("Horizontal total", total)
+        temp += total
+        total = 0
+
+        # Check values diagonally Upper \
+        for x in range(5):
+            print(state[x][x + 1])
+            if state[x][x] != self.turn:
+                total += count
+                streak, count = 0, 0
+            # Streak is still going or starting
+            else:
+                streak += 1
+                count += 1 if count == 0 else count * streak
+
+        total += count
+
+        print("Upper \ Diagonal total", total)
+        total = 0
+
+        # Check values diagonally \
+        for x in range(6):
+            if state[x][x] != self.turn:
+                total += count
+                streak, count = 0, 0
+            # Streak is still going or starting
+            else:
+                streak += 1
+                count += 1 if count == 0 else count * streak
+
+        total += count
+
+        print("\ Diagonal total", total)
+        total = 0
+
+        # Check values diagonally /
+        for x in range(6):
+            if state[5 - x][x] != self.turn:
+                total += count
+                streak, count = 0, 0
+            # Streak is still going or starting
+            else:
+                streak += 1
+                count += 1 if count == 0 else count * streak
+
+        total += count
+
+        print("/ Diagonal total", total)
+
+        print("H is:", total + temp)
+
 
     # Generate all possible rotations the player can pick
     # Should just be 1-4 l or r. Rules might complicate things for initial rounds TODO: hi
@@ -57,10 +143,8 @@ class Board:
                     clone = copy.deepcopy(self)
                     clone.set(self.turn, g, d)
                     moves.append(clone)
-                    # clone.print()
 
         return moves
-
 
     def handlewin(self):
         exit(0)
@@ -112,7 +196,7 @@ class Board:
         if l[1][5] == check and l[2][4] == check and l[3][3] == check and l[4][2] == check and l[5][1] == check:
             return True
 
-        return
+        return False
 
     # check if a move can be made...no marble in spot
     def isavail(self, grid, spot):
@@ -123,7 +207,8 @@ class Board:
             self.grids[grid - 1].data[spot - 1] = player
 
     def print(self):
-        print("+------------+------------+")
+        divider = "+------------+------------+"
+        print(divider)
         for y in range(3):
             for g in range(2):
                 for x in range(3):
@@ -131,7 +216,7 @@ class Board:
                         print('|', end='')
                     print(' ', self.grids[g].data[x + 3 * y], end=' ')
             print('|')
-        print("+------------+------------+")
+        print(divider)
         for y in range(3):
             for g in range(2, 4):
                 for x in range(3):
@@ -139,7 +224,7 @@ class Board:
                         print('|', end='')
                     print(' ', self.grids[g].data[x + 3 * y], end=' ')
             print('|')
-        print("+------------+------------+")
+        print(divider)
 
 
 # Board is composed of four grids to represent game state.
@@ -200,5 +285,35 @@ board = Board([Grid(3), Grid(3), Grid(3), Grid(3)], 2)
 #         print("Spot taken.")
 
 board.getrotations(board.getspots())
+# board.set(board.turn, 1, 2)
+# board.set(board.turn, 1, 8)
+# board.set(board.turn, 3, 2)
+# board.set(board.turn, 3, 5)
+
+# board.set(board.turn, 1, 2)
+# board.set(board.turn, 1, 3)
+#
+# board.set(board.turn, 1, 6)
+
+
+# board.set(board.turn, 1, 5)
+# board.set(board.turn, 1, 1)
+# board.set(board.turn, 1, 9)
+# board.set(board.turn, 4, 1)
+
+
+# board.set(board.turn, 3, 7)
+# board.set(board.turn, 3, 5)
+# board.set(board.turn, 3, 3)
+# board.set(board.turn, 2, 7)
+# board.set(board.turn, 2, 5)
+# board.set(board.turn, 2, 3)
+board.set(board.turn, 1, 2)
+board.set(board.turn, 1, 6)
+board.set("WTF", 1, 1)
+
+board.print()
+board.heuristic()
+print(board.checkwin(board.turn))
 
 
