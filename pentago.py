@@ -1,7 +1,27 @@
 # TCSS 435 PA #2 - Ethan Cheatham
 import random
 import copy
+import heapq
 import numpy as np
+
+
+class PriorityQueue:
+    def __init__(self):
+        self._queue = []
+        self._index = 0
+        self._size = 0
+
+    def push(self, item, priority):
+        heapq.heappush(self._queue, (-priority, self._index, item))
+        self._index += 1
+        self._size += 1
+
+    def pop(self):
+        self._size -= 1
+        return heapq.heappop(self._queue)[-1]
+
+    def size(self):
+        return self._size
 
 
 class Board:
@@ -11,94 +31,53 @@ class Board:
         self.size = width * width
         self.turn = random.choice(['W', 'B'])
 
-    def heuristic(self):
+    # Gi
+    # ven a line, evaluate it's sub-heuristic value, increases exponentially for streaks
+    def evalline(self, line):
+        count, streak = 0, 0
+        for s in line:
+            if s != self.turn:
+                streak = 0
+            else:
+                streak += 1
+                count += 1 if count == 0 else count * streak
+
+        return count
+
+    # Generates every sequence horizontally, vertically, diagonally forward and backwards.
+    def gensequences(self):
         state = self.getboard()
-        total, count, streak = 0, 0, 0
-        temp = 0
-        # check values vertically
-        for y in range(6):
+        sequences = []
+        sequence = ""
+        # Rotate board after first loop
+        for loop in range(2):
             for x in range(6):
-                # If the spot is blank or an opponent it ruins a streak.
-                if state[x][y] != self.turn:
-                    total += count
-                    streak, count = 0, 0
-                # Streak is still going or starting
-                else:
-                    streak += 1
-                    count += 1 if count == 0 else count * streak
+                for y in range(6):
+                    sequence += state[x][y]
+                sequences.append(sequence)
+                sequence = ""
 
-            total += count
-            streak, count = 0, 0
+            for k in range(12):
+                for j in range(0, k + 1):
+                    i = k - j
+                    if i < 6 and j < 6:
+                        sequence += state[i][j]
+                sequences.append(sequence)
+                sequence = ""
 
-        print("Vertical total", total)
-        temp += total
-        total, count, streak = 0, 0, 0
-        # check values horizontally
-        for x in range(6):
-            for y in range(6):
-                # If the spot is blank or an opponent it ruins a streak.
-                if state[x][y] != self.turn:
-                    total += count
-                    streak, count = 0, 0
-                # Streak is still going or starting
-                else:
-                    streak += 1
-                    count += 1 if count == 0 else count * streak
+            state = np.rot90(state)
 
-            total += count
-            streak, count = 0, 0
+        return sequences
 
-        print("Horizontal total", total)
-        temp += total
+    # Evaluate the board with exponential increase for streaks.
+    def heuristic(self):
         total = 0
-
-        # Check values diagonally Upper \
-        for x in range(5):
-            print(state[x][x + 1])
-            if state[x][x] != self.turn:
-                total += count
-                streak, count = 0, 0
-            # Streak is still going or starting
-            else:
-                streak += 1
-                count += 1 if count == 0 else count * streak
-
-        total += count
-
-        print("Upper \ Diagonal total", total)
-        total = 0
-
-        # Check values diagonally \
-        for x in range(6):
-            if state[x][x] != self.turn:
-                total += count
-                streak, count = 0, 0
-            # Streak is still going or starting
-            else:
-                streak += 1
-                count += 1 if count == 0 else count * streak
-
-        total += count
-
-        print("\ Diagonal total", total)
-        total = 0
-
-        # Check values diagonally /
-        for x in range(6):
-            if state[5 - x][x] != self.turn:
-                total += count
-                streak, count = 0, 0
-            # Streak is still going or starting
-            else:
-                streak += 1
-                count += 1 if count == 0 else count * streak
-
-        total += count
-
-        print("/ Diagonal total", total)
-
-        print("H is:", total + temp)
-
+        for r in self.gensequences():
+            current = self.evalline(r)
+            # if current > 1:
+            total += current
+            # total += board.evalline(r)
+        return total
 
     # Generate all possible rotations the player can pick
     # Should just be 1-4 l or r. Rules might complicate things for initial rounds TODO: hi
@@ -112,10 +91,15 @@ class Board:
         for move in moves:
             # Various rotations for each grid
             for g in range(0, len(self.grids)):
-                rotations.append(copy.deepcopy(move).grids[g].rotatecw())
-                rotations.append(copy.deepcopy(move).grids[g].rotateccw())
+                for r in range(2):
+                    clone = copy.deepcopy(move)
+                    if r == 1:
+                        clone.grids[g].rotatecw()
+                    else:
+                        clone.grids[g].rotateccw()
+                    rotations.append(clone)
 
-        print(len(rotations))
+        return rotations
 
     # Get the board as a single 2d array
     def getboard(self):
@@ -283,8 +267,6 @@ board = Board([Grid(3), Grid(3), Grid(3), Grid(3)], 2)
 #         board.print()
 #     else:
 #         print("Spot taken.")
-
-board.getrotations(board.getspots())
 # board.set(board.turn, 1, 2)
 # board.set(board.turn, 1, 8)
 # board.set(board.turn, 3, 2)
@@ -296,24 +278,28 @@ board.getrotations(board.getspots())
 # board.set(board.turn, 1, 6)
 
 
-# board.set(board.turn, 1, 5)
+board.set(board.turn, 1, 5)
 # board.set(board.turn, 1, 1)
-# board.set(board.turn, 1, 9)
-# board.set(board.turn, 4, 1)
-
-
-# board.set(board.turn, 3, 7)
+board.set(board.turn, 1, 9)
+board.set(board.turn, 4, 1)
+#
+#
+board.set(board.turn, 3, 7)
 # board.set(board.turn, 3, 5)
-# board.set(board.turn, 3, 3)
-# board.set(board.turn, 2, 7)
+board.set(board.turn, 3, 3)
+board.set(board.turn, 2, 7)
 # board.set(board.turn, 2, 5)
-# board.set(board.turn, 2, 3)
-board.set(board.turn, 1, 2)
-board.set(board.turn, 1, 6)
-board.set("WTF", 1, 1)
+board.set(board.turn, 2, 3)
+
+max = PriorityQueue()
 
 board.print()
-board.heuristic()
-print(board.checkwin(board.turn))
 
-
+for r in board.getrotations(board.getspots()):
+    q = PriorityQueue()
+    for r2 in r.getrotations(r.getspots()):
+        q.push(r, r.heuristic())
+    val = q.pop()
+    max.push(val, val.heuristic())
+    print(val.heuristic())
+print("total max", max.pop().heuristic())
