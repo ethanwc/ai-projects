@@ -2,7 +2,83 @@
 import random
 import copy
 import heapq
+import datetime
 import numpy as np
+
+
+class Minmax:
+    def __init__(self, root):
+        self.root = root
+
+    def utility(self, node):
+        # print("here")
+        v = node.data.heuristic()
+        # print(v)
+        return v
+
+    def MinMax(self):
+        return self.Min(self.root)
+
+    def Max(self, state):
+        if state.terminal():
+            return self.utility(state)
+        v = float("-inf")
+        for c in state.children:
+            v = max(v, self.Min(c))
+        return v
+
+    def Min(self, state):
+        if state.terminal():
+            return self.utility(state)
+        v = float("inf")
+        for c in state.children:
+            v = min(v, self.Max(c))
+        return v
+
+
+class Alphabeta:
+    def __init__(self, root):
+        self.root = root
+
+    def utility(self, node):
+        return node.data.heuristic()
+
+    def AlphaBeta(self):
+        return self.Max(self.root, float("-inf"), float("inf"))
+
+    def Max(self, state, a, b):
+        if state.terminal():
+            return self.utility(state)
+        v = float("-inf")
+        for c in state.children:
+            v = max(v, self.Min(c, a, b))
+            if v >= b:
+                return b
+            a = max(a, v)
+        return v
+
+    def Min(self, state, a, b):
+        if state.terminal():
+            return self.utility(state)
+        v = float("inf")
+        for c in state.children:
+            v = min(v, self.Max(c, a, b))
+            if v <= a:
+                return v
+            b = min(b, v)
+        return v
+
+
+class Node(object):
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+
+    def add_child(self, obj):
+        self.children.append(obj)
+
+    def terminal(self):
+        return len(self.children) == 0
 
 
 class PriorityQueue:
@@ -30,6 +106,9 @@ class Board:
         self.width = width
         self.size = width * width
         self.turn = random.choice(['W', 'B'])
+
+    def swapturn(self):
+        self.turn = 'W' if self.turn == 'B' else 'B'
 
     # Gi
     # ven a line, evaluate it's sub-heuristic value, increases exponentially for streaks
@@ -271,17 +350,19 @@ board = Board([Grid(3), Grid(3), Grid(3), Grid(3)], 2)
 # board.set(board.turn, 1, 8)
 # board.set(board.turn, 3, 2)
 # board.set(board.turn, 3, 5)
-
-# board.set(board.turn, 1, 2)
-# board.set(board.turn, 1, 3)
 #
-# board.set(board.turn, 1, 6)
+board.set(board.turn, 1, 2)
+board.set(board.turn, 1, 3)
 
+board.swapturn()
 
+board.set(board.turn, 1, 6)
+#
+#
 board.set(board.turn, 1, 5)
 # board.set(board.turn, 1, 1)
-board.set(board.turn, 1, 9)
-board.set(board.turn, 4, 1)
+# board.set(board.turn, 1, 9)
+# board.set(board.turn, 4, 1)
 #
 #
 board.set(board.turn, 3, 7)
@@ -291,15 +372,32 @@ board.set(board.turn, 2, 7)
 # board.set(board.turn, 2, 5)
 board.set(board.turn, 2, 3)
 
-max = PriorityQueue()
+# max = PriorityQueue()
 
 board.print()
 
+tree = Node(board)
+
+temp = 10000
+
+
+
 for r in board.getrotations(board.getspots()):
-    q = PriorityQueue()
-    for r2 in r.getrotations(r.getspots()):
-        q.push(r, r.heuristic())
-    val = q.pop()
-    max.push(val, val.heuristic())
-    print(val.heuristic())
-print("total max", max.pop().heuristic())
+    val = Node(r)
+    tree.add_child(val)
+
+for v in tree.children:
+    for t in v.data.getrotations(v.data.getspots()):
+        val2 = Node(t)
+        v.add_child(val2)
+# print("Starting the searches")
+# before = datetime.datetime.now()
+minmax = Minmax(tree)
+print(minmax.MinMax())
+# after = datetime.datetime.now()
+# print(minmax.MinMax(), "in ", (after - before) * 1000 ,"milliseconds")
+# before2 = datetime.datetime.now()
+ab = Alphabeta(tree)
+# after2 = datetime.datetime.now()
+# print(ab.AlphaBeta(), "in", (after2- before2) * 1000, "milliseconds")
+print(ab.AlphaBeta())

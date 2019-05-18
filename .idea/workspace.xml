@@ -17,10 +17,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pentago.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="295" column="13" selection-start-line="295" selection-start-column="13" selection-end-line="295" selection-end-column="13" />
+            <state relative-caret-position="90">
+              <caret line="51" column="25" lean-forward="true" selection-start-line="51" selection-start-column="25" selection-end-line="51" selection-end-column="25" />
               <folding>
-                <element signature="e#0#13#0" expanded="true" />
+                <element signature="e#34#47#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -37,36 +37,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>np.arra</find>
-      <find>9</find>
-      <find>else</find>
-      <find>read</find>
-      <find>def</find>
-      <find>l</find>
-      <find>isavail</find>
-      <find>spot taken</find>
-      <find>print</find>
-      <find>set</find>
-      <find>getboard</find>
-      <find>diagonal t</find>
-      <find>d</find>
-      <find>diagon</find>
-      <find>diag</find>
-      <find>diag</find>
-      <find>print(sta</find>
-      <find>x + 1</find>
-      <find>upper</find>
-      <find>get</find>
-      <find>self.get</find>
-      <find>rot</find>
-      <find>getrot</find>
-      <find>tostring</find>
-      <find>copy.deep</find>
-      <find>copy.dee</find>
-      <find>&gt; 1</find>
-      <find>prior</find>
-      <find>look</find>
-      <find>priorityq</find>
+      <find>turn</find>
+      <find>self.turn =</find>
+      <find>root</find>
+      <find>self.root</find>
+      <find>Minmax</find>
+      <find>Minimax</find>
+      <find>minmax</find>
+      <find>Name</find>
+      <find>value</find>
+      <find>should be root</find>
+      <find>priorit</find>
+      <find>PriorityQueue</find>
+      <find>max</find>
+      <find>best_val</find>
+      <find>utility value of</find>
+      <find>terminal</find>
+      <find>minimax</find>
+      <find>.data</find>
+      <find>getutility</find>
+      <find>node.name</find>
+      <find>node.value</find>
+      <find>node.heu</find>
+      <find>utility val</find>
+      <find>print(&quot;here</find>
+      <find>here</find>
+      <find>utility</find>
+      <find>amax</find>
+      <find>np.</find>
+      <find>class node</find>
+      <find>utility</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -83,6 +83,7 @@
         <option value="$PROJECT_DIR$/queue.py" />
         <option value="$PROJECT_DIR$/readme.txt" />
         <option value="$PROJECT_DIR$/game.py" />
+        <option value="$PROJECT_DIR$/minmax.py" />
         <option value="$PROJECT_DIR$/pentago.py" />
       </list>
     </option>
@@ -101,7 +102,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -113,6 +113,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -221,7 +222,8 @@
       <workItem from="1557777661008" duration="126000" />
       <workItem from="1557782201516" duration="11000" />
       <workItem from="1557782319933" duration="10537000" />
-      <workItem from="1557953900919" duration="26197000" />
+      <workItem from="1557953900919" duration="27421000" />
+      <workItem from="1558153406845" duration="14217000" />
     </task>
     <task id="LOCAL-00001" summary="robust input handling">
       <created>1554750198965</created>
@@ -384,11 +386,18 @@
       <option name="project" value="LOCAL" />
       <updated>1558061179162</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Select best move from all sets, heuristic working">
+      <created>1558082132173</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1558082132173</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="171206000" />
+    <option name="totallyTimeSpent" value="186647000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -402,13 +411,13 @@
   <component name="ToolWindowManager">
     <frame x="0" y="-35" width="1600" height="935" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.13642214" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13642214" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24967825" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.95951414" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3994602" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3983051" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3292978" />
@@ -416,7 +425,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.502574" side_tool="true" weight="0.42372882" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.497426" visible="true" weight="0.38861984" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.497426" visible="true" weight="0.49757868" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32928476" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -471,10 +480,11 @@
     <MESSAGE value="Generate all possible moves and rotations" />
     <MESSAGE value="abstraction" />
     <MESSAGE value="what am i doing?" />
-    <option name="LAST_COMMIT_MESSAGE" value="what am i doing?" />
+    <MESSAGE value="Select best move from all sets, heuristic working" />
+    <option name="LAST_COMMIT_MESSAGE" value="Select best move from all sets, heuristic working" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/15_puzzle$pentago.coverage" NAME="pentago Coverage Results" MODIFIED="1558057713421" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/15_puzzle$pentago.coverage" NAME="pentago Coverage Results" MODIFIED="1558168106002" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/15_puzzle$game.coverage" NAME="game Coverage Results" MODIFIED="1557987753185" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
@@ -518,12 +528,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/minmax.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="33" column="24" selection-start-line="33" selection-start-column="24" selection-end-line="33" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pentago.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="295" column="13" selection-start-line="295" selection-start-column="13" selection-end-line="295" selection-end-column="13" />
+        <state relative-caret-position="90">
+          <caret line="51" column="25" lean-forward="true" selection-start-line="51" selection-start-column="25" selection-end-line="51" selection-end-column="25" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#34#47#0" expanded="true" />
           </folding>
         </state>
       </provider>
