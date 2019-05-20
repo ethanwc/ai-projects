@@ -37,16 +37,22 @@ class Minmax:
         if state.terminal():
             return Statevalue(state, self.utility(state))
         v = Statevalue(None, float("-inf"))
+        expanded = 0
         for c in state.children:
+            expanded += 1
             v = v.max(self.Min(c))
+        v.state.data.expand = expanded
         return v
 
     def Min(self, state):
         if state.terminal():
             return Statevalue(state, self.utility(state))
         v = Statevalue(None, float("inf"))
+        expanded = 0
         for c in state.children:
+            expanded += 1
             v = v.min(self.Max(c))
+        v.state.data.expand = expanded
         return v
 
 
@@ -64,22 +70,30 @@ class Alphabeta:
         if state.terminal():
             return Statevalue(state, self.utility(state))
         v = Statevalue(None, float("-inf"))
+        expanded = 0
         for c in state.children:
+            expanded += 1
             v = v.max(self.Min(c, a, b))
             if v.value >= b:
-                return b
+                v.state.data.expand = expanded
+                return v
             a = max(a, v.value)
+        v.state.data.expand = expanded
         return v
 
     def Min(self, state, a, b):
         if state.terminal():
             return Statevalue(state, self.utility(state))
         v = Statevalue(None, float("inf"))
+        expanded = 0
         for c in state.children:
+            expanded += 1
             v = v.min(self.Min(c, a, b))
             if v.value <= a:
+                v.state.data.expand = expanded
                 return v
             b = min(b, v.value)
+        v.state.data.expand = expanded
         return v
 
 
@@ -120,14 +134,17 @@ class Board:
         self.width = width
         self.size = width * width
         self.turn = random.choice(['W', 'B'])
+        self.running = 1
+        self.totalexpand = 0
+        self.expand = 0
+        self.depth = 0
         self.move = None
         self.rotation = None
 
     def swapturn(self):
         self.turn = 'W' if self.turn == 'B' else 'B'
 
-    # Gi
-    # ven a line, evaluate it's sub-heuristic value, increases exponentially for streaks
+    # Given a line, evaluate it's sub-heuristic value, increases exponentially for streaks
     def evalline(self, line):
         count, streak = 0, 0
         for s in line:
@@ -225,7 +242,9 @@ class Board:
     def handlewin(self):
         self.print()
         print("Somebody won I guess...")
-        exit(0)
+        print("Depth Level:", self.depth)
+        print("Expanded:", self.totalexpand)
+        self.running = 0
 
     # Check both players for a win
     def checkwins(self):
@@ -255,6 +274,7 @@ class Board:
     def set(self, player, grid, spot):
             self.grids[grid - 1].data[spot - 1] = player
             self.move = [grid, spot]
+            self.depth += 1
 
     def print(self):
         divider = "+------------+------------+"
@@ -327,27 +347,47 @@ def tempgentree(state):
         val = Node(r)
         tree.add_child(val)
 
+    for possibility in tree.children:
+        for p in possibility.data.getrotations(possibility.data.getspots()):
+            val = Node(p)
+            possibility.add_child(val)
+    #
     return tree
+
+
+# sum all the expansions for each part of the tree
+def getexpansions(tree):
+    expanded = 0
+    for v in tree.children:
+        expanded += v.data.expand
+        for vc in v.children:
+            expanded += vc.data.expand
+    return expanded
 
 
 board = Board([Grid(3), Grid(3), Grid(3), Grid(3)], 2)
 
-while 1:
+while board.running:
     # B for bot aka AI
     if board.turn == 'B':
 
+        # minmax search
         # possibilities = tempgentree(board)
         # minmax = Minmax(possibilities)
         # val = minmax.MinMax().state.data
 
+        # alpha beta search
         possibilities = tempgentree(board)
         alphabeta = Alphabeta(possibilities)
         val = alphabeta.AlphaBeta().state.data
 
         board.set(board.turn, val.move[0], val.move[1])
+        print("AI is setting:", board.move)
+        board.totalexpand = val.totalexpand + getexpansions(possibilities)
         board.checkwins()
         board.grids[val.rotation[0]].rotate(val.rotation[1])
         board.rotation = [val.rotation[0], val.rotation[1]]
+
         board.checkwins()
         board.print()
         board.turn = 'W'
@@ -368,3 +408,7 @@ while 1:
             print("Cannot rotate grid of placement")
         else:
             print("Spot taken.")
+
+output = open("output.txt", "w")
+output.write("Test write")
+output.close()
