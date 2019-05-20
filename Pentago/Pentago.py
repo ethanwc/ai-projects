@@ -58,28 +58,28 @@ class Alphabeta:
         return node.data.heuristic()
 
     def AlphaBeta(self):
-        return self.Min(self.root, float("-inf"), float("inf"))
+        return self.Max(self.root, float("-inf"), float("inf"))
 
     def Max(self, state, a, b):
         if state.terminal():
-            return self.utility(state)
-        v = float("-inf")
+            return Statevalue(state, self.utility(state))
+        v = Statevalue(None, float("-inf"))
         for c in state.children:
-            v = max(v, self.Min(c, a, b))
-            if v >= b:
+            v = v.max(self.Min(c, a, b))
+            if v.value >= b:
                 return b
-            a = max(a, v)
+            a = max(a, v.value)
         return v
 
     def Min(self, state, a, b):
         if state.terminal():
-            return self.utility(state)
-        v = float("inf")
+            return Statevalue(state, self.utility(state))
+        v = Statevalue(None, float("inf"))
         for c in state.children:
-            v = min(v, self.Max(c, a, b))
-            if v <= a:
+            v = v.min(self.Min(c, a, b))
+            if v.value <= a:
                 return v
-            b = min(b, v)
+            b = min(b, v.value)
         return v
 
 
@@ -173,10 +173,6 @@ class Board:
         return total
 
     # Generate all possible rotations the player can pick
-    # Should just be 1-4 l or r. Rules might complicate things for initial rounds TODO: hi
-    # TODO: can't twist the grid that you just placed a marble on
-    # TODO: check that board is full with no winners
-
     # Takes in all possible moves for next state, returns all rotations for each move
     def getrotations(self, moves):
         rotations = []
@@ -184,15 +180,17 @@ class Board:
         for move in moves:
             # Various rotations for each grid
             for g in range(0, len(self.grids)):
-                for r in range(2):
-                    clone = copy.deepcopy(move)
-                    if r == 1:
-                        clone.grids[g].rotatecw()
-                        clone.rotation = [g, 'R']
-                    else:
-                        clone.grids[g].rotateccw()
-                        clone.rotation = [g, 'L']
-                    rotations.append(clone)
+                # Only generate rotations for grids that haven't been modified
+                if g != move.move[0] - 1:
+                    for r in range(2):
+                        clone = copy.deepcopy(move)
+                        if r == 1:
+                            clone.grids[g].rotatecw()
+                            clone.rotation = [g, 'R']
+                        else:
+                            clone.grids[g].rotateccw()
+                            clone.rotation = [g, 'L']
+                        rotations.append(clone)
 
         return rotations
 
@@ -209,7 +207,6 @@ class Board:
                 for x in range(3):
                     board.append(self.grids[g].data[x + 3 * y])
         board2 = np.array(board).reshape(6, 6)
-        # print(board2)
         return board2
 
     # Generate all possible spots where the given player can go
@@ -241,7 +238,11 @@ class Board:
             if len(sequence) >= 5:
                 count = 0
                 for c in range(len(sequence)):
-                    count += 1 if sequence[c] == self.turn else 0
+                    if sequence[c] == self.turn:
+                        count += 1
+                    else:
+                        count = 0
+
                     if count == 5:
                         return True
         return False
@@ -334,29 +335,36 @@ board = Board([Grid(3), Grid(3), Grid(3), Grid(3)], 2)
 while 1:
     # B for bot aka AI
     if board.turn == 'B':
+
+        # possibilities = tempgentree(board)
+        # minmax = Minmax(possibilities)
+        # val = minmax.MinMax().state.data
+
         possibilities = tempgentree(board)
-        minmax = Minmax(possibilities)
-        val = minmax.MinMax().state.data
+        alphabeta = Alphabeta(possibilities)
+        val = alphabeta.AlphaBeta().state.data
+
         board.set(board.turn, val.move[0], val.move[1])
         board.checkwins()
         board.grids[val.rotation[0]].rotate(val.rotation[1])
         board.rotation = [val.rotation[0], val.rotation[1]]
         board.checkwins()
         board.print()
-        print(board.move, board.rotation)
         board.turn = 'W'
 
     # Human Turn
     elif board.turn == 'W':
         res = readinput()
-        if board.isavail(int(res[0]), int(res[1])):
+        # check if spot is available and grid is different for the rotation
+        if board.isavail(int(res[0]), int(res[1])) and int(res[0]) != int(res[2]):
             board.set(board.turn, int(res[0]), int(res[1]))
             board.checkwins()
             board.grids[int(res[2]) - 1].rotate(res[3])
             board.rotation = [int(res[2]), res[3]]
             board.checkwins()
             board.print()
-            print(board.move, board.rotation)
             board.turn = 'B'
+        elif int(res[0]) == int(res[2]):
+            print("Cannot rotate grid of placement")
         else:
             print("Spot taken.")
