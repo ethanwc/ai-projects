@@ -1,4 +1,5 @@
-# ai moving tile problem by Ethan Cheatham
+# TCSS 435 PA #1 - Ethan Cheatham
+# Moving Tile
 import hashlib
 import sys
 import numpy as np
@@ -6,7 +7,7 @@ import copy
 import heapq
 
 
-# Represent the state of the board
+# Represent the state of the board with depth
 class State:
     state = []
     depth = None
@@ -23,6 +24,7 @@ class PriorityQueue:
         self._size = 0
 
     def push(self, item, priority):
+        # print('p', priority)
         heapq.heappush(self._queue, (priority, self._index, item))
         self._index += 1
         self._size += 1
@@ -53,7 +55,7 @@ def h(state):
     if extra == 'h1':
         return h1(np.array(state).flatten())
     else:
-        return h2(np.array(state).reshape(4, 4))
+        return h2(np.array(state.state).reshape(4, 4))
 
 
 # h1 is the number of misplaced tiles
@@ -63,7 +65,8 @@ def h1(state):
     sol1 = np.array(solution).flatten()
     sol2 = np.array(solution2).flatten()
     for i in range(0, len(state)):
-        if not (state[i] == sol1[i] or state[i] == sol2[i]):
+        if not (state[i] == sol1[i]
+                or state[i] == sol2[i]):
             n += 1
     return n
 
@@ -110,6 +113,7 @@ def h2(state):
 # pathcost g(n) should be the depth level, the number of moves taken, not the cost between initial and current.
 def pathcost(initial, current):
     n = 0
+    # print(initial, current)
     for i in range(0, len(initial)):
         if not initial[i] == current[i]:
             n += 1
@@ -146,6 +150,7 @@ def move(state, move):
 def getmoves(board):
     for i in range(0, size):
         for j in range(0, size):
+            # print(board)
             if board[i][j] == ' ':
                 moves = []
 
@@ -161,12 +166,12 @@ def getmoves(board):
                 # up
                 if i > 0:
                     moves.append('up')
+                # print(moves)
                 return moves
 
     return 0
 
 
-# check if a list contains an element
 def contains(element, list):
     length = len(list)
 
@@ -224,11 +229,7 @@ def dfs(initial, limit):
     frontier = dict()
     explored = dict()
     frontier[md5(np.array(initial.state).tostring())] = initial
-
-    maxdepth = 100000000
-    if limit != 0:
-        maxdepth = limit
-
+    maxdepth = limit if limit != 0 else float("inf")
     created, expanded, maxfringe = 0, 0, 0
 
     while frontier:
@@ -259,56 +260,40 @@ def dfs(initial, limit):
     return 0
 
 
-# Greedy best-first search, uses the distance function.
-def gbfs(initial):
+# A-star(0) and greedy search(1)
+def hs(initial, search):
     frontier = PriorityQueue()
-    cost = h1(np.array(initial).flatten())
-    frontier.push(initial, cost)
+    frontier.push(initial, 1)
     explored = []
-    if np.array_equal(initial.state, solution):
-        print('Found sol')
-        return
-    while frontier.size() > 0:
-        node = frontier.pop()
-        explored.append(node)
-        moves = getmoves(node.state)
-        for i in range(0, len(moves)):
-            child = move(node, moves[i])
-            if not contains(child, explored):
-
-                if np.array_equal(child.state, solution2) or np.array_equal(child.state, solution):
-                    print('Found gbfs solution: ', frontier.size())
-                    return
-                cost = h(np.array(child).flatten())
-                frontier.push(child, cost)
-    return 0
-
-
-# A-Star, uses heuristic and distance
-def astar(initial):
-    frontier = PriorityQueue()
-    # could just be 0 because only element, but whatever... pretending this is c
-    cost = h1(np.array(initial).flatten()) + pathcost(np.array(initial).flatten(), np.array(initial).flatten())
-    frontier.push(initial, cost)
-    explored = []
-
     if np.array_equal(initial.state, solution) or np.array_equal(initial.state, solution2):
         print('Found sol')
-        return
+        return 0, 0, 0, 0
+
+    created, expanded, maxfringe = 0, 0, 0
+
     while frontier.size() > 0:
         node = frontier.pop()
-        print(node.state)
         explored.append(node)
         moves = getmoves(node.state)
+        expanded += 1
+        if frontier.size() > maxfringe:
+            maxfringe = frontier.size()
         for i in range(0, len(moves)):
             child = move(node, moves[i])
+            created += 1
             if not contains(child, explored):
                 if np.array_equal(child.state, solution2) or np.array_equal(child.state, solution):
-                    print('Found astar solution: ', frontier.size())
-                    return
-                cost = h(np.array(child.state).flatten()) + node.depth
+                    return child.depth, created, expanded, maxfringe
+
+                # g + h for astar, h for greedy
+                cost = h(child)
+                if not search:
+                    # add cost to current path for a-star
+                    cost += child.depth
+
                 frontier.push(child, cost)
-    return 0
+
+    return -1, -1, -1, -1
 
 
 # Load the cmd arguments into values
@@ -392,8 +377,8 @@ def validateinput(initialstate, searchmethod, argcount, boardinput):
 
 # Handle input after checking it is okay.
 def handleinput(boardinput):
-    puzzle = State(boardinput)
     res = 0
+    puzzle = State(boardinput)
     if searchmethod.lower() == 'bfs':
         res = bfs(puzzle)
     elif searchmethod.lower() == 'dfs':
@@ -403,13 +388,12 @@ def handleinput(boardinput):
     elif searchmethod.lower() == 'id':
         print('id chosen, its not implemented though... :)')
     elif searchmethod.lower() == 'gbfs':
-        res = gbfs(puzzle)
+        res = hs(puzzle, 1)
     elif searchmethod.lower() == 'astar':
-        res = astar(puzzle)
-    # if res != 0:
-    #     print(res, sep=", ")
+        res = hs(puzzle, 0)
+    if res != 0:
+        print(*res, sep=", ")
 
 
 # Start the program
 parseinput()
-
