@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="78302b1b-12fa-4d39-a9d7-55898d7d00ae" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Moving-Tile/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/Moving-Tile/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Moving-Tile/game2.py" beforeDir="false" />
+    <list default="true" id="78302b1b-12fa-4d39-a9d7-55898d7d00ae" name="Default Changelist" comment="Pentago - counting expansions">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Pentago/Pentago.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pentago/Pentago.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
@@ -15,23 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Moving-Tile/game.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="422">
-              <caret line="399" lean-forward="true" selection-start-line="399" selection-end-line="399" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Pentago/Pentago.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="590">
-              <caret line="379" column="42" lean-forward="true" selection-start-line="379" selection-start-column="42" selection-end-line="379" selection-end-column="42" />
+            <state relative-caret-position="164">
+              <caret line="405" column="27" selection-start-line="405" selection-start-column="27" selection-end-line="405" selection-end-column="27" />
               <folding>
                 <element signature="e#34#47#0" expanded="true" />
               </folding>
@@ -50,18 +37,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>amax</find>
-      <find>np.</find>
-      <find>def rotate</find>
-      <find>def get</find>
-      <find>getrotat</find>
-      <find>.move =</find>
-      <find>getrot</find>
-      <find>getro</find>
-      <find>hi</find>
-      <find>getrota</find>
-      <find>print</find>
-      <find>def gen</find>
       <find>Node</find>
       <find>getmoves(node)</find>
       <find>.</find>
@@ -69,17 +44,29 @@
       <find>tempgen</find>
       <find>handlewin</find>
       <find>.depth</find>
-      <find>set</find>
       <find>.exp</find>
       <find>class state</find>
       <find>statevalue</find>
       <find>class node</find>
       <find>Node(</find>
-      <find>class board</find>
       <find>.expand</find>
       <find>totalexpand</find>
       <find>class bp</find>
+      <find>def set</find>
+      <find>def getsp</find>
+      <find>getrotations</find>
+      <find>tem</find>
+      <find>evallin</find>
+      <find>self.move</find>
+      <find>move =</find>
+      <find>move</find>
+      <find>getspots</find>
+      <find>print</find>
+      <find>ai is ro</find>
       <find>checkwin</find>
+      <find>class board</find>
+      <find>set</find>
+      <find>.moves</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -104,7 +91,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+  <component name="ProjectFrameBounds" extendedState="7" fullScreen="true">
     <option name="y" value="28" />
     <option name="width" value="800" />
     <option name="height" value="872" />
@@ -249,7 +236,9 @@
       <workItem from="1557782319933" duration="10537000" />
       <workItem from="1557953900919" duration="27421000" />
       <workItem from="1558153406845" duration="14217000" />
-      <workItem from="1558298051875" duration="24178000" />
+      <workItem from="1558298051875" duration="36728000" />
+      <workItem from="1558570119803" duration="792000" />
+      <workItem from="1558739401476" duration="1444000" />
     </task>
     <task id="LOCAL-00001" summary="robust input handling">
       <created>1554750198965</created>
@@ -433,11 +422,25 @@
       <option name="project" value="LOCAL" />
       <updated>1558345151705</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Pentago - counting expansions">
+      <created>1558390702671</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1558390702672</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Pentago - counting expansions">
+      <created>1558390720553</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1558390720553</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="210825000" />
+    <option name="totallyTimeSpent" value="225611000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -449,10 +452,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="-35" width="1600" height="935" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="-35" width="1600" height="935" extended-state="7" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2837838" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.2837838" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24967825" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -466,7 +468,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.502574" side_tool="true" weight="0.42372882" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.497426" visible="true" weight="0.19733655" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.497426" visible="true" weight="0.34382567" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32928476" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -524,7 +526,8 @@
     <MESSAGE value="Select best move from all sets, heuristic working" />
     <MESSAGE value="Pentago fixes, needs depth level 2 search" />
     <MESSAGE value="Fixed moving tile finally" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed moving tile finally" />
+    <MESSAGE value="Pentago - counting expansions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pentago - counting expansions" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ai_projects$pentago.coverage" NAME="pentago Coverage Results" MODIFIED="1558330503036" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -568,28 +571,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Moving-Tile/game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="304" column="45" selection-start-line="304" selection-start-column="45" selection-end-line="304" selection-end-column="45" />
+        <state relative-caret-position="402">
+          <caret line="399" lean-forward="true" selection-start-line="399" selection-end-line="399" />
           <folding>
-            <element signature="e#43#57#0" expanded="true" />
+            <element signature="e#48#62#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Moving-Tile/game.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
-          <caret line="399" lean-forward="true" selection-start-line="399" selection-end-line="399" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/Pentago/output.txt">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/Pentago/Pentago.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="590">
-          <caret line="379" column="42" lean-forward="true" selection-start-line="379" selection-start-column="42" selection-end-line="379" selection-end-column="42" />
+        <state relative-caret-position="164">
+          <caret line="405" column="27" selection-start-line="405" selection-start-column="27" selection-end-line="405" selection-end-column="27" />
           <folding>
             <element signature="e#34#47#0" expanded="true" />
           </folding>

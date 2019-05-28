@@ -134,6 +134,8 @@ class Board:
         self.width = width
         self.size = width * width
         self.turn = random.choice(['W', 'B'])
+        self.eval = self.turn
+        self.moves = 0
         self.running = 1
         self.totalexpand = 0
         self.expand = 0
@@ -148,7 +150,7 @@ class Board:
     def evalline(self, line):
         count, streak = 0, 0
         for s in line:
-            if s != self.turn:
+            if s != self.eval:
                 streak = 0
             else:
                 streak += 1
@@ -161,7 +163,15 @@ class Board:
         state = self.getboard()
         sequences = []
         sequence = ""
-        # Rotate board after first loop
+
+        for k in range(12):
+            for j in range(0, k + 1):
+                i = k - j
+                if i < 6 and j < 6:
+                    sequence += state[i][j]
+            sequences.append(sequence)
+            sequence = ""
+
         for loop in range(2):
             for x in range(6):
                 for y in range(6):
@@ -169,14 +179,7 @@ class Board:
                 sequences.append(sequence)
                 sequence = ""
 
-            for k in range(12):
-                for j in range(0, k + 1):
-                    i = k - j
-                    if i < 6 and j < 6:
-                        sequence += state[i][j]
-                sequences.append(sequence)
-                sequence = ""
-
+            # Rotate board after first loop
             state = np.rot90(state)
 
         return sequences
@@ -223,8 +226,7 @@ class Board:
             for g in range(2, 4):
                 for x in range(3):
                     board.append(self.grids[g].data[x + 3 * y])
-        board2 = np.array(board).reshape(6, 6)
-        return board2
+        return np.array(board).reshape(6, 6)
 
     # Generate all possible spots where the given player can go
     def getspots(self):
@@ -234,7 +236,7 @@ class Board:
             for d in range(1, len(self.grids[g - 1].data) + 1):
                 if self.grids[g - 1].data[d - 1] == '.':
                     clone = copy.deepcopy(self)
-                    clone.set(self.turn, g, d)
+                    clone.set(self.eval, g, d)
                     moves.append(clone)
 
         return moves
@@ -274,6 +276,7 @@ class Board:
     def set(self, player, grid, spot):
             self.grids[grid - 1].data[spot - 1] = player
             self.move = [grid, spot]
+            self.moves += 1
             self.depth += 1
 
     def print(self):
@@ -342,16 +345,17 @@ def readinput():
 # used to generate a tree two levels deep to determine a move
 def tempgentree(state):
     tree = Node(state)
-
+    board.eval = 'B'
     for r in board.getrotations(board.getspots()):
         val = Node(r)
         tree.add_child(val)
 
-    for possibility in tree.children:
-        for p in possibility.data.getrotations(possibility.data.getspots()):
-            val = Node(p)
-            possibility.add_child(val)
-    #
+    board.eval = 'W'
+    for r in board.getrotations(board.getspots()):
+        val = Node(r)
+        tree.add_child(val)
+
+    # todo min max the state, someone something aways min maxing whatever
     return tree
 
 
@@ -369,45 +373,49 @@ board = Board([Grid(3), Grid(3), Grid(3), Grid(3)], 2)
 
 while board.running:
     # B for bot aka AI
-    if board.turn == 'B':
+        if board.moves > 35:
+            print("Board is full...quiting")
+            exit(0)
+        if board.turn == 'B':
 
-        # minmax search
-        # possibilities = tempgentree(board)
-        # minmax = Minmax(possibilities)
-        # val = minmax.MinMax().state.data
+            # minmax search
+            # possibilities = tempgentree(board)
+            # minmax = Minmax(possibilities)
+            # val = minmax.MinMax().state.data
 
-        # alpha beta search
-        possibilities = tempgentree(board)
-        alphabeta = Alphabeta(possibilities)
-        val = alphabeta.AlphaBeta().state.data
-
-        board.set(board.turn, val.move[0], val.move[1])
-        print("AI is setting:", board.move)
-        board.totalexpand = val.totalexpand + getexpansions(possibilities)
-        board.checkwins()
-        board.grids[val.rotation[0]].rotate(val.rotation[1])
-        board.rotation = [val.rotation[0], val.rotation[1]]
-
-        board.checkwins()
-        board.print()
-        board.turn = 'W'
-
-    # Human Turn
-    elif board.turn == 'W':
-        res = readinput()
-        # check if spot is available and grid is different for the rotation
-        if board.isavail(int(res[0]), int(res[1])) and int(res[0]) != int(res[2]):
-            board.set(board.turn, int(res[0]), int(res[1]))
+            # alpha beta search
+            possibilities = tempgentree(board)
+            alphabeta = Alphabeta(possibilities)
+            val = alphabeta.AlphaBeta().state.data
+            
+            board.set(board.turn, val.move[0], val.move[1])
+            board.totalexpand = val.totalexpand + getexpansions(possibilities)
             board.checkwins()
-            board.grids[int(res[2]) - 1].rotate(res[3])
-            board.rotation = [int(res[2]), res[3]]
+            board.grids[val.rotation[0]].rotate(val.rotation[1])
+            board.rotation = [val.rotation[0], val.rotation[1]]
+            # print("AI is setting:", board.move)
+            # print("AI is rotating:", board.rotation[0] + 1, board.rotation[1])
+            # print("N expanded", getexpansions(possibilities))
             board.checkwins()
             board.print()
-            board.turn = 'B'
-        elif int(res[0]) == int(res[2]):
-            print("Cannot rotate grid of placement")
-        else:
-            print("Spot taken.")
+            board.turn = 'W'
+
+        # Human Turn
+        elif board.turn == 'W':
+            res = readinput()
+            # check if spot is available and grid is different for the rotation
+            if board.isavail(int(res[0]), int(res[1])) and int(res[0]) != int(res[2]):
+                board.set(board.turn, int(res[0]), int(res[1]))
+                board.checkwins()
+                board.grids[int(res[2]) - 1].rotate(res[3])
+                board.rotation = [int(res[2]), res[3]]
+                board.checkwins()
+                board.print()
+                board.turn = 'B'
+            elif int(res[0]) == int(res[2]):
+                print("Cannot rotate grid of placement")
+            else:
+                print("Spot taken.")
 
 output = open("output.txt", "w")
 output.write("Test write")
