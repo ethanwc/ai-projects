@@ -24,7 +24,6 @@ class PriorityQueue:
         self._size = 0
 
     def push(self, item, priority):
-        # print('p', priority)
         heapq.heappush(self._queue, (priority, self._index, item))
         self._index += 1
         self._size += 1
@@ -220,7 +219,7 @@ def bfs(initial):
 
                 frontier[pathhash] = child
 
-    return -1, -1, -1, -1
+    return -1, 0, 0, 0
 
 
 # dfs/ dls
@@ -269,7 +268,6 @@ def hs(initial, search):
 
     while frontier.size() > 0:
         node = frontier.pop()
-        # print(node.state)
         explored.append(node)
         moves = getmoves(node.state)
         expanded += 1
@@ -283,11 +281,9 @@ def hs(initial, search):
                     return child.depth, created, expanded, maxfringe
 
                 # g + h for astar, h for greedy
-                cost = h(child)
-                if not search:
-                    # add cost to current path for a-star
-                    cost += child.depth
-
+                # add cost to current path for a-star
+                cost = h(child) + child.depth if search else h(child)
+                print(child.state, cost)
                 frontier.push(child, cost)
 
     return -1, 0, 0, 0

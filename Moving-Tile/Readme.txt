@@ -28,8 +28,10 @@ GBFS H2: 11, 34, 11 ,23
 
 
 Time Complexity:
-BFS:
-DFS:
-DLS:
-A-STAR:
-GBFS:
+BFS: O(b^d)
+DFS: O(b^m)
+DLS: O(b^m)
+A-STAR H1: O(b^(e*d))
+A-STAR H2: O(b^(e*d))
+GBFS H1: O(b^m)
+GBFS H2: O(b^m)
