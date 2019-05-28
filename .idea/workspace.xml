@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="78302b1b-12fa-4d39-a9d7-55898d7d00ae" name="Default Changelist" comment="Pentago - counting expansions">
+      <change afterPath="$PROJECT_DIR$/Moving-Tile/Readme.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pentago/Pentago.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pentago/Pentago.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moving-Tile/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/Moving-Tile/FifteenProblem.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -12,16 +13,28 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="ai-projects" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Pentago/Pentago.py">
+        <entry file="file://$PROJECT_DIR$/Moving-Tile/FifteenProblem.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="405" column="27" selection-start-line="405" selection-start-column="27" selection-end-line="405" selection-end-column="27" />
+            <state relative-caret-position="4335">
+              <caret line="289" selection-start-line="289" selection-end-line="289" />
               <folding>
-                <element signature="e#34#47#0" expanded="true" />
+                <element signature="e#48#62#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Moving-Tile/Readme.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="111">
+              <caret line="13" column="23" lean-forward="true" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -37,13 +50,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Node</find>
-      <find>getmoves(node)</find>
-      <find>.</find>
       <find>astar</find>
       <find>tempgen</find>
       <find>handlewin</find>
-      <find>.depth</find>
       <find>.exp</find>
       <find>class state</find>
       <find>statevalue</find>
@@ -67,6 +76,10 @@
       <find>class board</find>
       <find>set</find>
       <find>.moves</find>
+      <find>print(node</find>
+      <find>.</find>
+      <find>.depth</find>
+      <find>child.depth</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -88,10 +101,12 @@
         <option value="$PROJECT_DIR$/Moving-Tile/game2.py" />
         <option value="$PROJECT_DIR$/Moving-Tile/game.py" />
         <option value="$PROJECT_DIR$/Pentago/Pentago.py" />
+        <option value="$PROJECT_DIR$/Moving-Tile/Readme.txt" />
+        <option value="$PROJECT_DIR$/Moving-Tile/FifteenProblem.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7" fullScreen="true">
+  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
     <option name="y" value="28" />
     <option name="width" value="800" />
     <option name="height" value="872" />
@@ -104,7 +119,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -126,6 +140,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -238,7 +253,7 @@
       <workItem from="1558153406845" duration="14217000" />
       <workItem from="1558298051875" duration="36728000" />
       <workItem from="1558570119803" duration="792000" />
-      <workItem from="1558739401476" duration="1444000" />
+      <workItem from="1558739401476" duration="4898000" />
     </task>
     <task id="LOCAL-00001" summary="robust input handling">
       <created>1554750198965</created>
@@ -440,7 +455,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="225611000" />
+    <option name="totallyTimeSpent" value="229065000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -452,9 +467,33 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="-35" width="1600" height="935" extended-state="7" />
+    <frame x="0" y="-35" width="1600" height="935" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.2837838" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.24967825" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.95951414" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39711663" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3292978" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.502574" side_tool="true" weight="0.42372882" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.497426" visible="true" weight="0.34382567" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32928476" />
+      <window_info anchor="bottom" id="Favorites" order="13" weight="0.3292978" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.32947233" />
+      <window_info anchor="right" id="Database" order="4" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2837838" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24967825" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -474,29 +513,6 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" weight="0.32947233" />
-      <window_info anchor="right" id="Database" order="4" />
-    </layout>
-    <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.33819628" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.35813493" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.37381917" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32928476" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" />
       <window_info anchor="right" id="Database" order="4" />
     </layout-to-restore>
   </component>
@@ -569,25 +585,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Moving-Tile/game.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="402">
-          <caret line="399" lean-forward="true" selection-start-line="399" selection-end-line="399" />
-          <folding>
-            <element signature="e#48#62#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Pentago/output.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/Pentago/Pentago.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="405" column="27" selection-start-line="405" selection-start-column="27" selection-end-line="405" selection-end-column="27" />
+        <state relative-caret-position="387">
+          <caret line="419" selection-start-line="419" selection-end-line="421" selection-end-column="14" />
           <folding>
             <element signature="e#34#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Moving-Tile/Readme.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
+          <caret line="13" column="23" lean-forward="true" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Moving-Tile/FifteenProblem.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4335">
+          <caret line="289" selection-start-line="289" selection-end-line="289" />
+          <folding>
+            <element signature="e#48#62#0" expanded="true" />
           </folding>
         </state>
       </provider>

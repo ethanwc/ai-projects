@@ -53,7 +53,7 @@ size = 4
 # dumbe caller
 def h(state):
     if extra == 'h1':
-        return h1(np.array(state).flatten())
+        return h1(np.array(state.state).flatten())
     else:
         return h2(np.array(state.state).reshape(4, 4))
 
@@ -65,8 +65,7 @@ def h1(state):
     sol1 = np.array(solution).flatten()
     sol2 = np.array(solution2).flatten()
     for i in range(0, len(state)):
-        if not (state[i] == sol1[i]
-                or state[i] == sol2[i]):
+        if not (state[i] == sol1[i]or state[i] == sol2[i]):
             n += 1
     return n
 
@@ -229,7 +228,7 @@ def dfs(initial, limit):
     frontier = dict()
     explored = dict()
     frontier[md5(np.array(initial.state).tostring())] = initial
-    maxdepth = limit if limit != 0 else float("inf")
+    maxdepth = limit + 1 if limit != 0 else float("inf")
     created, expanded, maxfringe = 0, 0, 0
 
     while frontier:
@@ -237,9 +236,6 @@ def dfs(initial, limit):
             maxfringe = len(frontier)
 
         node = frontier.popitem()[1]
-
-        if not node.depth < maxdepth:
-            return -1, 0, 0, 0
 
         hash = md5(np.array(node.state).tostring())
         explored[hash] = node
@@ -254,10 +250,11 @@ def dfs(initial, limit):
                 created += 1
                 if np.array_equal(child.state, solution) or np.array_equal(child.state, solution2):
                     return child.depth, created, expanded, maxfringe
+                # only add if depth is less than or equal to max depth
+                if child.depth <= maxdepth:
+                    frontier[pathhash] = child
 
-                frontier[pathhash] = child
-
-    return 0
+    return -1, 0, 0, 0
 
 
 # A-star(0) and greedy search(1)
@@ -266,13 +263,13 @@ def hs(initial, search):
     frontier.push(initial, 1)
     explored = []
     if np.array_equal(initial.state, solution) or np.array_equal(initial.state, solution2):
-        print('Found sol')
         return 0, 0, 0, 0
 
     created, expanded, maxfringe = 0, 0, 0
 
     while frontier.size() > 0:
         node = frontier.pop()
+        # print(node.state)
         explored.append(node)
         moves = getmoves(node.state)
         expanded += 1
@@ -293,7 +290,7 @@ def hs(initial, search):
 
                 frontier.push(child, cost)
 
-    return -1, -1, -1, -1
+    return -1, 0, 0, 0
 
 
 # Load the cmd arguments into values
