@@ -1,6 +1,7 @@
 from collections import defaultdict
 import random
 files = ['alice-27.txt', 'doyle-27.txt', 'doyle-case-27.txt', 'london-call-27.txt', 'melville-billy-27.txt', 'twain-adventures-27.txt']
+# files = ['trump.txt']
 words = []
 story = ""
 
@@ -11,6 +12,7 @@ for file in files:
 mg = defaultdict(lambda: 0)
 bg = defaultdict(lambda: defaultdict(lambda: 0))
 tg = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: 0)))
+
 
 for i in range(len(words) - 2):
     mg[words[i]] += 1

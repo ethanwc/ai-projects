@@ -345,17 +345,17 @@ def readinput():
 # used to generate a tree two levels deep to determine a move
 def tempgentree(state):
     tree = Node(state)
-    board.eval = 'B'
     for r in board.getrotations(board.getspots()):
         val = Node(r)
+        val.data.eval = 'B'
         tree.add_child(val)
 
-    board.eval = 'W'
-    for r in board.getrotations(board.getspots()):
-        val = Node(r)
-        tree.add_child(val)
+    for m in tree.children:
+        for r in m.data.getrotations(board.getspots()):
+            val = Node(r)
+            val.data.eval = 'W'
+            m.add_child(val)
 
-    # todo min max the state, someone something aways min maxing whatever
     return tree
 
 
