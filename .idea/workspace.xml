@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="78302b1b-12fa-4d39-a9d7-55898d7d00ae" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pentago/Pentago.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pentago/Pentago.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Story/story.py" beforeDir="false" afterPath="$PROJECT_DIR$/Story/story.py" afterDir="false" />
-    </list>
+    <list default="true" id="78302b1b-12fa-4d39-a9d7-55898d7d00ae" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,11 +26,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Pentago/Pentago.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="915">
-              <caret line="351" selection-start-line="351" selection-end-line="351" />
+            <state relative-caret-position="2175">
+              <caret line="300" lean-forward="true" selection-start-line="300" selection-end-line="300" />
               <folding>
                 <element signature="e#34#47#0" expanded="true" />
               </folding>
@@ -42,7 +38,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Story/story.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="294">
@@ -296,7 +292,7 @@
       <workItem from="1559601823725" duration="203000" />
       <workItem from="1559690763197" duration="1048000" />
       <workItem from="1559752458996" duration="125000" />
-      <workItem from="1559752756287" duration="9301000" />
+      <workItem from="1559752756287" duration="11777000" />
     </task>
     <task id="LOCAL-00001" summary="robust input handling">
       <created>1554750198965</created>
@@ -522,11 +518,18 @@
       <option name="project" value="LOCAL" />
       <updated>1559752562173</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="done">
+      <created>1559774860558</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1559774860558</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="241648000" />
+    <option name="totallyTimeSpent" value="244124000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -591,7 +594,6 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="framework done" />
     <MESSAGE value="???????" />
     <MESSAGE value="some changes" />
     <MESSAGE value="added bfs and dfs, but they are broken" />
@@ -616,7 +618,8 @@
     <MESSAGE value="update, almost ready to submit" />
     <MESSAGE value="game done" />
     <MESSAGE value="story" />
-    <option name="LAST_COMMIT_MESSAGE" value="story" />
+    <MESSAGE value="done" />
+    <option name="LAST_COMMIT_MESSAGE" value="done" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ai_projects$pentago.coverage" NAME="pentago Coverage Results" MODIFIED="1558330503036" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -681,22 +684,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Pentago/Pentago.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
-          <caret line="351" selection-start-line="351" selection-end-line="351" />
-          <folding>
-            <element signature="e#34#47#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Story/story.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="294">
           <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pentago/Pentago.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2175">
+          <caret line="300" lean-forward="true" selection-start-line="300" selection-end-line="300" />
+          <folding>
+            <element signature="e#34#47#0" expanded="true" />
           </folding>
         </state>
       </provider>
